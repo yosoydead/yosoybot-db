@@ -8,6 +8,7 @@ import { RESPONSE_TYPE } from "./responseType";
 import { ICustomJsonResponse } from "./types";
 
 import guildRouter from "./routes/guild";
+import userRouter from "./routes/user";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ dotenv.config();
 		app.use(express.json());
 
 		app.use(guildRouter);
+		app.use(userRouter);
 
 		app.get("/", (req: Request, res: Response) => {
 			const json: ICustomJsonResponse = {
@@ -49,7 +51,7 @@ dotenv.config();
 
 		//intra aici doar atunci cand nu am nicio ruta care sa se potriveasca pt url
 		app.get("*", (req: Request, res: Response, next: NextFunction) => {
-			return next(new ErrorHandler("nu am gasit ruta"));
+			return next(new ErrorHandler("nu am gasit ruta", 404));
 		});
 
 		//aici intra doar daca nu se poate gasi nicio ruta definita pt POST
