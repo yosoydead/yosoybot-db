@@ -7,6 +7,8 @@ import { ErrorHandler, handlerError } from "./middlewares/errorHandler";
 import { RESPONSE_TYPE } from "./responseType";
 import { ICustomJsonResponse } from "./types";
 
+import guildRouter from "./routes/guild";
+
 dotenv.config();
 
 (async () => {
@@ -22,6 +24,8 @@ dotenv.config();
 
 		//asta ma lasa sa primesc doar json in request
 		app.use(express.json());
+
+		app.use(guildRouter);
 
 		app.get("/", (req: Request, res: Response) => {
 			const json: ICustomJsonResponse = {

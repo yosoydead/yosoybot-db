@@ -64,6 +64,7 @@ var mongoose_1 = __importDefault(require("mongoose"));
 var dotenv = __importStar(require("dotenv"));
 var errorHandler_1 = require("./middlewares/errorHandler");
 var responseType_1 = require("./responseType");
+var guild_1 = __importDefault(require("./routes/guild"));
 dotenv.config();
 (function () { return __awaiter(void 0, void 0, void 0, function () {
     var app, err_1;
@@ -79,6 +80,7 @@ dotenv.config();
                 app.use(cors_1.default());
                 //asta ma lasa sa primesc doar json in request
                 app.use(express_1.default.json());
+                app.use(guild_1.default);
                 app.get("/", function (req, res) {
                     var json = {
                         message: "salut. faci get request la home route",
