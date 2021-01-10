@@ -8,6 +8,6 @@ var guildController_1 = require("../controllers/guildController");
 var guildRouter = express_1.default.Router();
 guildRouter.get("/guilds", guildController_1.getGuilds);
 guildRouter.get("/guild/:id", guildController_1.getGuild);
-guildRouter.post("/guild:/id", guildController_1.addGuild);
+guildRouter.post("/guild/:id", guildController_1.addGuild);
 guildRouter.post("/guilds", guildController_1.addGuilds);
 exports.default = guildRouter;

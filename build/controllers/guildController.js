@@ -38,15 +38,22 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addGuilds = exports.addGuild = exports.getGuild = exports.getGuilds = void 0;
 var responseType_1 = require("../responseType");
+var guildModel_1 = require("../models/guildModel");
 var getGuilds = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var json;
+    var a, json;
     return __generator(this, function (_a) {
-        json = {
-            message: "de aici ar trebui sa pot returna intreaga lista de guilde in care se afla botul",
-            statusCode: 200,
-            status: responseType_1.RESPONSE_TYPE.SUCCESS
-        };
-        return [2 /*return*/, res.json(json)];
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, guildModel_1.Guild.find({})];
+            case 1:
+                a = _a.sent();
+                console.log(a);
+                json = {
+                    message: "de aici ar trebui sa pot returna intreaga lista de guilde in care se afla botul",
+                    statusCode: 200,
+                    status: responseType_1.RESPONSE_TYPE.SUCCESS
+                };
+                return [2 /*return*/, res.json(json)];
+        }
     });
 }); };
 exports.getGuilds = getGuilds;
@@ -63,14 +70,23 @@ var getGuild = function (req, res, next) { return __awaiter(void 0, void 0, void
 }); };
 exports.getGuild = getGuild;
 var addGuild = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var json;
+    var discordID, a, json;
     return __generator(this, function (_a) {
-        json = {
-            message: "aici ar trebui sa pot adauga o guilda. ar trebui sa trimit o lista cu useri si id-ul guildei",
-            statusCode: 200,
-            status: responseType_1.RESPONSE_TYPE.SUCCESS
-        };
-        return [2 /*return*/, res.json(json)];
+        switch (_a.label) {
+            case 0:
+                discordID = req.params.id;
+                console.log(discordID);
+                return [4 /*yield*/, guildModel_1.Guild.create({ discordGuildID: discordID, guildAdminID: "dsasadsa" })];
+            case 1:
+                a = _a.sent();
+                console.log(a);
+                json = {
+                    message: "aici ar trebui sa pot adauga o guilda. ar trebui sa trimit o lista cu useri si id-ul guildei",
+                    statusCode: 200,
+                    status: responseType_1.RESPONSE_TYPE.SUCCESS
+                };
+                return [2 /*return*/, res.json(json)];
+        }
     });
 }); };
 exports.addGuild = addGuild;

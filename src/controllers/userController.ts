@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction} from "express";
 import { RESPONSE_TYPE } from "../responseType";
 import { ICustomJsonResponse } from "../types";
+import { User } from "../models/gokuServerUserModel";
 
 export const getUser = async (req: Request, res: Response, next: NextFunction) => {
 	console.log(req.params.id);
@@ -24,6 +25,7 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction) 
 
 export const addUser = async (req: Request, res: Response, next: NextFunction) => {
 	console.log(req.params.id);
+
 	const json: ICustomJsonResponse = {
 		message: "aici a trebui sa pot adauga un user in baza de date",
 		statusCode: 200,
