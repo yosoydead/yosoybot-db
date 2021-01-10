@@ -1,0 +1,26 @@
+/* eslint-disable @typescript-eslint/no-inferrable-types */
+import { Response } from "express";
+import { RESPONSE_TYPE } from "../responseType";
+import { ICustomJsonResponse } from "../types";
+
+export class ErrorHandler extends Error {
+	public _statusCode;
+	constructor(message: string, statusCode: number = 500) {
+		super();
+		this.message = message;
+		this._statusCode = statusCode;
+	}
+}
+
+export const handlerError = (err: ErrorHandler, res: Response): Response => {
+	const { message, _statusCode} = err;
+	const json: ICustomJsonResponse = {
+		message,
+		status: RESPONSE_TYPE.ERROR,
+		statusCode: _statusCode
+	};
+
+	return res
+		.status(_statusCode)
+		.json(json);
+};
