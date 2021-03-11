@@ -8,6 +8,7 @@ import { RESPONSE_TYPE } from "./responseType";
 import { ICustomJsonResponse } from "./types";
 
 import guildRouter from "./routes/guild";
+import testRouter from "./routes/testing/users";
 import gokuUserRouter from "./routes/gokuUsers";
 
 dotenv.config();
@@ -28,6 +29,7 @@ dotenv.config();
 
 		app.use(guildRouter);
 		app.use(gokuUserRouter);
+		app.use(testRouter);
 
 		app.get("/", (req: Request, res: Response) => {
 			const json: ICustomJsonResponse = {

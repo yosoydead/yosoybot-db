@@ -36,90 +36,56 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addGuilds = exports.addGuild = exports.getGuild = exports.getGuilds = void 0;
-var responseType_1 = require("../responseType");
-var guildModel_1 = require("../models/guildModel");
-var gokuServerUserModel_1 = require("../models/gokuServerUserModel");
-var getGuilds = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var a, json;
+exports.addComments = exports.addComment = exports.getComments = exports.getComment = void 0;
+var responseType_1 = require("../../responseType");
+// import { User } from "../models/gokuServerUserModel";
+var getComment = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var json;
     return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, guildModel_1.Guild.find({}).map(function (el) { return el.discordGuildID; })];
-            case 1:
-                a = _a.sent();
-                console.log(a);
-                json = {
-                    message: "de aici ar trebui sa pot returna intreaga lista de guilde in care se afla botul",
-                    statusCode: 200,
-                    status: responseType_1.RESPONSE_TYPE.SUCCESS
-                };
-                return [2 /*return*/, res.json(json)];
-        }
+        console.log(req.params.id);
+        json = {
+            message: "de aici ar trebui sa pot returna detalii despre un singur comment cu id din param",
+            statusCode: 200,
+            status: responseType_1.RESPONSE_TYPE.SUCCESS
+        };
+        return [2 /*return*/, res.json(json)];
     });
 }); };
-exports.getGuilds = getGuilds;
-var getGuild = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+exports.getComment = getComment;
+var getComments = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var json;
     return __generator(this, function (_a) {
         json = {
-            message: "de aici ar trebui sa pot returna detalii despre o guilda",
+            message: "de aici ar trebui sa pot returna intreaga lista de commenturi din baza de date",
             statusCode: 200,
             status: responseType_1.RESPONSE_TYPE.SUCCESS
         };
         return [2 /*return*/, res.json(json)];
     });
 }); };
-exports.getGuild = getGuild;
-var addGuild = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var discordID, a, json;
+exports.getComments = getComments;
+var addComment = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var json;
     return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                discordID = req.params.id;
-                console.log(discordID);
-                return [4 /*yield*/, guildModel_1.Guild.create({ discordGuildID: discordID, guildAdminID: "dsasadsa" })];
-            case 1:
-                a = _a.sent();
-                console.log(a);
-                json = {
-                    message: "aici ar trebui sa pot adauga o guilda. ar trebui sa trimit o lista cu useri si id-ul guildei",
-                    statusCode: 200,
-                    status: responseType_1.RESPONSE_TYPE.SUCCESS
-                };
-                return [2 /*return*/, res.json(json)];
-        }
-    });
-}); };
-exports.addGuild = addGuild;
-var addGuilds = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var guilds, users, json;
-    return __generator(this, function (_a) {
-        guilds = req.body;
-        users = [];
-        req.body.map(function (el) {
-            var membersIdList = el.membersIdList;
-            membersIdList.map(function (id) {
-                users.push({
-                    serverId: el.discordGuildID,
-                    discordUserId: id,
-                    rublerts: 10
-                });
-            });
-        });
-        // console.log(users);
-        gokuServerUserModel_1.User.insertMany(users)
-            .then(function () {
-            console.log("am reusit sa adaug toti userii");
-        })
-            .catch(function (err) {
-            console.log("nu am putut adauga userii", err);
-        });
+        console.log(req.params.id);
         json = {
-            message: "aici ar trebui sa primesc o lista de guilde, s-o iterez si sa adaug in baza de date",
+            message: "aici a trebui sa pot adauga un comment in baza de date",
             statusCode: 200,
             status: responseType_1.RESPONSE_TYPE.SUCCESS
         };
         return [2 /*return*/, res.json(json)];
     });
 }); };
-exports.addGuilds = addGuilds;
+exports.addComment = addComment;
+var addComments = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var json;
+    return __generator(this, function (_a) {
+        json = {
+            message: "aici a trebui sa primesc o lista de commenturi, s-o iterez si sa adaug useri in baza de date",
+            statusCode: 200,
+            status: responseType_1.RESPONSE_TYPE.SUCCESS
+        };
+        return [2 /*return*/, res.json(json)];
+    });
+}); };
+exports.addComments = addComments;
