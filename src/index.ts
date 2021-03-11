@@ -9,7 +9,7 @@ import { ICustomJsonResponse } from "./types";
 
 import guildRouter from "./routes/guild";
 import testRouter from "./routes/testing/users";
-import gokuUserRouter from "./routes/gokuUsers";
+import gokuUserRouter from "./routes/goku/users";
 
 dotenv.config();
 
