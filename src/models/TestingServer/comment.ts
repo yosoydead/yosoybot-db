@@ -1,18 +1,17 @@
 import { model, Schema, Model, Document } from "mongoose";
-import { IUser } from "./user";
 
 export interface IComment extends Document {
   votes: number,
   content: string,
-  author: IUser["_id"]
+  author: string
 }
 
 const CommentSchema = new Schema({
-	votes: { type: Number },
+	votes: { type: Number, default: 1 },
 	content: { type: String },
 	author: {
-		type: Schema.Types.ObjectId,
-		ref: "testUser",
+		type: String,
+		// ref: "testUser",
 		required: [true, "Lipseste user id"]
 	}
 });

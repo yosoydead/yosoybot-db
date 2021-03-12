@@ -7,7 +7,7 @@ commentRoute.get("/test/comment/:id", getComment);
 
 commentRoute.get("/test/comments", getComments);
 
-commentRoute.post("/test/comment/:id", addComment);
+commentRoute.post("/test/comment", addComment);
 
 commentRoute.post("/test/comments", addComments);
 

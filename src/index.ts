@@ -9,7 +9,9 @@ import { ICustomJsonResponse } from "./types";
 
 import guildRouter from "./routes/guild";
 import testRouter from "./routes/testing/users";
+import testComment from "./routes/testing/comments";
 import gokuUserRouter from "./routes/goku/users";
+import gokuComment from "./routes/goku/comments";
 
 dotenv.config();
 
@@ -28,8 +30,10 @@ dotenv.config();
 		app.use(express.json());
 
 		app.use(guildRouter);
-		app.use(gokuUserRouter);
 		app.use(testRouter);
+		app.use(testComment);
+		app.use(gokuUserRouter);
+		app.use(gokuComment);
 
 		app.get("/", (req: Request, res: Response) => {
 			const json: ICustomJsonResponse = {

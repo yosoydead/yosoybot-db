@@ -3,11 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TestComment = void 0;
 var mongoose_1 = require("mongoose");
 var CommentSchema = new mongoose_1.Schema({
-    votes: { type: Number },
+    votes: { type: Number, default: 1 },
     content: { type: String },
     author: {
-        type: mongoose_1.Schema.Types.ObjectId,
-        ref: "testUser",
+        type: String,
+        // ref: "testUser",
         required: [true, "Lipseste user id"]
     }
 });

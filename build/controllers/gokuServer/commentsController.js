@@ -36,94 +36,68 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addMoney = exports.addUsers = exports.addUser = exports.getUsers = exports.getUser = void 0;
+exports.addComments = exports.addComment = exports.getComments = exports.getComment = void 0;
 var responseType_1 = require("../../responseType");
-var user_1 = require("../../models/TestingServer/user");
-var getUser = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+var user_1 = require("../../models/GokuServer/user");
+var comment_1 = require("../../models/GokuServer/comment");
+var getComment = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var json;
     return __generator(this, function (_a) {
         console.log(req.params.id);
         json = {
-            message: "de aici ar trebui sa pot returna detalii despre un singur user cu id din param",
+            message: "de aici ar trebui sa pot returna detalii despre un singur comment cu id din param",
             statusCode: 200,
             status: responseType_1.RESPONSE_TYPE.SUCCESS
         };
         return [2 /*return*/, res.json(json)];
     });
 }); };
-exports.getUser = getUser;
-var getUsers = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+exports.getComment = getComment;
+var getComments = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var json;
     return __generator(this, function (_a) {
-        user_1.TestUser.find({})
-            .populate("comments")
-            .exec()
-            .then(function (r) {
-            console.log(r);
-            return res.send(r);
+        json = {
+            message: "de aici ar trebui sa pot returna intreaga lista de commenturi din baza de date",
+            statusCode: 200,
+            status: responseType_1.RESPONSE_TYPE.SUCCESS
+        };
+        return [2 /*return*/, res.json(json)];
+    });
+}); };
+exports.getComments = getComments;
+var addComment = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var json;
+    return __generator(this, function (_a) {
+        // console.log(req.params.id);
+        console.log(req.body);
+        comment_1.GokuComment.create({ content: req.body.content, author: req.body.author })
+            .then(function (com) {
+            console.log("inserat", com);
+            return user_1.GokuUser.findOneAndUpdate({ discordUserId: req.body.author }, { $push: { comments: com._id } });
+        })
+            .then(function (user) {
         })
             .catch(function (err) {
             console.log(err);
         });
-        return [2 /*return*/];
-    });
-}); };
-exports.getUsers = getUsers;
-var addUser = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var json;
-    return __generator(this, function (_a) {
-        console.log(req.params.id);
         json = {
-            message: "aici a trebui sa pot adauga un user in baza de date",
+            message: "aici a trebui sa pot adauga un comment in baza de date",
             statusCode: 200,
             status: responseType_1.RESPONSE_TYPE.SUCCESS
         };
         return [2 /*return*/, res.json(json)];
     });
 }); };
-exports.addUser = addUser;
-var addUsers = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+exports.addComment = addComment;
+var addComments = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var json;
     return __generator(this, function (_a) {
-        console.log(req.body);
         json = {
-            message: "aici a trebui sa primesc o lista de useri, s-o iterez si sa adaug useri in baza de date",
+            message: "aici a trebui sa primesc o lista de commenturi, s-o iterez si sa adaug useri in baza de date",
             statusCode: 200,
             status: responseType_1.RESPONSE_TYPE.SUCCESS
         };
-        user_1.TestUser.insertMany(req.body)
-            .then(function (a) {
-            console.log(a);
-            return res.json(json);
-        })
-            .catch(function (err) {
-            return res.json({
-                "eroare": err
-            });
-        });
-        return [2 /*return*/];
+        return [2 /*return*/, res.json(json)];
     });
 }); };
-exports.addUsers = addUsers;
-var addMoney = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        console.log(req.body);
-        user_1.TestUser.findOneAndUpdate({ discordUserId: req.body.author }, { $inc: { "rublerts": parseInt(req.body.howMuch) } })
-            .then(function (r) {
-            console.log(r);
-            var json = {
-                message: "aici a trebui sa pot adauga bani pt un user",
-                statusCode: 200,
-                status: responseType_1.RESPONSE_TYPE.SUCCESS
-            };
-            return res.json(json);
-        })
-            .catch(function (err) {
-            // console.log(err);
-            return res.json({
-                "eroare": err
-            });
-        });
-        return [2 /*return*/];
-    });
-}); };
-exports.addMoney = addMoney;
+exports.addComments = addComments;

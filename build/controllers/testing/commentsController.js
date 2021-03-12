@@ -38,7 +38,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addComments = exports.addComment = exports.getComments = exports.getComment = void 0;
 var responseType_1 = require("../../responseType");
-// import { User } from "../models/gokuServerUserModel";
+var comment_1 = require("../../models/TestingServer/comment");
+var user_1 = require("../../models/TestingServer/user");
 var getComment = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var json;
     return __generator(this, function (_a) {
@@ -67,7 +68,18 @@ exports.getComments = getComments;
 var addComment = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var json;
     return __generator(this, function (_a) {
-        console.log(req.params.id);
+        // console.log(req.params.id);
+        console.log(req.body);
+        comment_1.TestComment.create({ content: req.body.content, author: req.body.author })
+            .then(function (com) {
+            console.log("inserat", com);
+            return user_1.TestUser.findOneAndUpdate({ discordUserId: req.body.author }, { $push: { comments: com._id } });
+        })
+            .then(function (user) {
+        })
+            .catch(function (err) {
+            console.log(err);
+        });
         json = {
             message: "aici a trebui sa pot adauga un comment in baza de date",
             statusCode: 200,

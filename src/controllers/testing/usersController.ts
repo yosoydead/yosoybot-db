@@ -15,12 +15,22 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
 };
 
 export const getUsers = async (req: Request, res: Response, next: NextFunction) => {
-	const json: ICustomJsonResponse = {
-		message: "de aici ar trebui sa pot returna intreaga lista de useri din baza de date",
-		statusCode: 200,
-		status: RESPONSE_TYPE.SUCCESS
-	};
-	return res.json(json);
+	TestUser.find({})
+		.populate("comments")
+		.exec()
+		.then((r) => {
+			console.log(r);
+			return res.send(r);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+	// const json: ICustomJsonResponse = {
+	// 	message: "de aici ar trebui sa pot returna intreaga lista de useri din baza de date",
+	// 	statusCode: 200,
+	// 	status: RESPONSE_TYPE.SUCCESS
+	// };
+	// return res.json(json);
 };
 
 export const addUser = async (req: Request, res: Response, next: NextFunction) => {
@@ -62,7 +72,7 @@ export const addMoney = async (req: Request, res: Response, next: NextFunction) 
 			console.log(r);
 			
 			const json: ICustomJsonResponse = {
-				message: "aici a trebui sa pot adauga un user in baza de date",
+				message: "aici a trebui sa pot adauga bani pt un user",
 				statusCode: 200,
 				status: RESPONSE_TYPE.SUCCESS 
 			};

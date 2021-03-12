@@ -6,8 +6,9 @@ var CommentSchema = new mongoose_1.Schema({
     votes: { type: Number },
     content: { type: String },
     author: {
-        type: mongoose_1.Schema.Types.ObjectId,
-        ref: "userGoku",
+        // type: Schema.Types.ObjectId,
+        // ref: "userGoku",
+        type: String,
         required: [true, "Lipseste goku user id"]
     }
 });

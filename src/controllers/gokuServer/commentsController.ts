@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction} from "express";
 import { RESPONSE_TYPE } from "../../responseType";
 import { ICustomJsonResponse } from "../../types";
-import { TestComment } from "../../models/TestingServer/comment";
-import { TestUser } from "../../models/TestingServer/user"; 
+import { GokuUser } from "../../models/GokuServer/user";
+import { GokuComment } from "../../models/GokuServer/comment"; 
 
 export const getComment = async (req: Request, res: Response, next: NextFunction) => {
 	console.log(req.params.id);
@@ -27,10 +27,10 @@ export const getComments = async (req: Request, res: Response, next: NextFunctio
 export const addComment = async (req: Request, res: Response, next: NextFunction) => {
 	// console.log(req.params.id);
 	console.log(req.body);
-	TestComment.create({ content: req.body.content, author: req.body.author })
+	GokuComment.create({ content: req.body.content, author: req.body.author })
 		.then((com) => {
 			console.log("inserat", com);
-			return TestUser.findOneAndUpdate({ discordUserId: req.body.author }, { $push: { comments: com._id }});
+			return GokuUser.findOneAndUpdate({ discordUserId: req.body.author }, { $push: { comments: com._id }});
 		})
 		.then(user => {
 		})

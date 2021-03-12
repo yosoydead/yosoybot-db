@@ -66,7 +66,9 @@ var errorHandler_1 = require("./middlewares/errorHandler");
 var responseType_1 = require("./responseType");
 var guild_1 = __importDefault(require("./routes/guild"));
 var users_1 = __importDefault(require("./routes/testing/users"));
+var comments_1 = __importDefault(require("./routes/testing/comments"));
 var users_2 = __importDefault(require("./routes/goku/users"));
+var comments_2 = __importDefault(require("./routes/goku/comments"));
 dotenv.config();
 (function () { return __awaiter(void 0, void 0, void 0, function () {
     var app, err_1;
@@ -83,8 +85,10 @@ dotenv.config();
                 //asta ma lasa sa primesc doar json in request
                 app.use(express_1.default.json());
                 app.use(guild_1.default);
-                app.use(users_2.default);
                 app.use(users_1.default);
+                app.use(comments_1.default);
+                app.use(users_2.default);
+                app.use(comments_2.default);
                 app.get("/", function (req, res) {
                     var json = {
                         message: "salut. faci get request la home route",
