@@ -7,13 +7,19 @@ import { ErrorHandler, handlerError } from "./middlewares/errorHandler";
 import { RESPONSE_TYPE } from "./responseType";
 import { ICustomJsonResponse } from "./types";
 
-import guildRouter from "./routes/guild";
-import testRouter from "./routes/testing/users";
+import testUserRouter from "./routes/testing/users";
 import testComment from "./routes/testing/comments";
 import gokuUserRouter from "./routes/goku/users";
 import gokuComment from "./routes/goku/comments";
 
 dotenv.config();
+
+const localRoutes = [testUserRouter, testComment];
+const prodRoutes = [gokuComment, gokuUserRouter];
+
+const env = process.env.NODE_ENV;
+const LOCAL_ENV_STRING = "local";
+const PROD_ENV_STRING = "production";
 
 (async () => {
 	try {
@@ -28,13 +34,13 @@ dotenv.config();
 
 		//asta ma lasa sa primesc doar json in request
 		app.use(express.json());
-
-		app.use(guildRouter);
-		app.use(testRouter);
-		app.use(testComment);
-		app.use(gokuUserRouter);
-		app.use(gokuComment);
-
+		
+		if (env === LOCAL_ENV_STRING) {
+			localRoutes.map((route) => { app.use(route); });
+		} else if (env === PROD_ENV_STRING) {
+			prodRoutes.map((route) => { app.use(route); });
+		}
+		
 		app.get("/", (req: Request, res: Response) => {
 			const json: ICustomJsonResponse = {
 				message: "salut. faci get request la home route",
@@ -77,6 +83,6 @@ dotenv.config();
 			console.log("server pornit");
 		});
 	} catch(err) {
-		console.log("nu am putut sa pornesc serverul?");
+		console.log("nu am putut sa pornesc serverul?", err);
 	}
 })();
