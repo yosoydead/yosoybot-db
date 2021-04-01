@@ -1,12 +1,9 @@
 import { Request, Response, NextFunction} from "express";
 import { RESPONSE_TYPE } from "../../responseType";
 import { ICustomJsonResponse } from "../../types";
-import { GokuUser } from "../../models/GokuServer/user";
-import { GokuComment } from "../../models/GokuServer/comment"; 
 
-export const getComment = async (req: Request, res: Response, next: NextFunction) => {
-	console.log(req.params.id);
-	
+export const getComment = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
+	dbClient.getRandomComment();
 	const json: ICustomJsonResponse = {
 		message: "de aici ar trebui sa pot returna detalii despre un singur comment cu id din param",
 		statusCode: 200,
@@ -15,7 +12,8 @@ export const getComment = async (req: Request, res: Response, next: NextFunction
 	return res.json(json);
 };
 
-export const getComments = async (req: Request, res: Response, next: NextFunction) => {
+export const getComments = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
+	dbClient.getComments();
 	const json: ICustomJsonResponse = {
 		message: "de aici ar trebui sa pot returna intreaga lista de commenturi din baza de date",
 		statusCode: 200,
@@ -24,19 +22,20 @@ export const getComments = async (req: Request, res: Response, next: NextFunctio
 	return res.json(json);
 };
 
-export const addComment = async (req: Request, res: Response, next: NextFunction) => {
+export const addComment = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
 	// console.log(req.params.id);
-	console.log(req.body);
-	GokuComment.create({ content: req.body.content, author: req.body.author })
-		.then((com) => {
-			console.log("inserat", com);
-			return GokuUser.findOneAndUpdate({ discordUserId: req.body.author }, { $push: { comments: com._id }});
-		})
-		.then(user => {
-		})
-		.catch(err => {
-			console.log(err);
-		});
+	dbClient.addComment();
+	// console.log(args);
+	// TestComment.create({ content: req.body.content, author: req.body.author })
+	// 	.then((com) => {
+	// 		console.log("inserat", com);
+	// 		return TestUser.findOneAndUpdate({ discordUserId: req.body.author }, { $push: { comments: com._id }});
+	// 	})
+	// 	.then(user => {
+	// 	})
+	// 	.catch(err => {
+	// 		console.log(err);
+	// 	});
 	const json: ICustomJsonResponse = {
 		message: "aici a trebui sa pot adauga un comment in baza de date",
 		statusCode: 200,
@@ -45,7 +44,8 @@ export const addComment = async (req: Request, res: Response, next: NextFunction
 	return res.json(json);
 };
 
-export const addComments = async (req: Request, res: Response, next: NextFunction) => {
+export const addComments = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
+	dbClient.addComments();
 	const json: ICustomJsonResponse = {
 		message: "aici a trebui sa primesc o lista de commenturi, s-o iterez si sa adaug useri in baza de date",
 		statusCode: 200,
