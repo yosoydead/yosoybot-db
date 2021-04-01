@@ -64,14 +64,21 @@ var mongoose_1 = __importDefault(require("mongoose"));
 var dotenv = __importStar(require("dotenv"));
 var errorHandler_1 = require("./middlewares/errorHandler");
 var responseType_1 = require("./responseType");
-var guild_1 = __importDefault(require("./routes/guild"));
+var models_1 = require("./models");
+var Client_1 = __importDefault(require("./dbClient/Client"));
 var users_1 = __importDefault(require("./routes/testing/users"));
 var comments_1 = __importDefault(require("./routes/testing/comments"));
 var users_2 = __importDefault(require("./routes/goku/users"));
 var comments_2 = __importDefault(require("./routes/goku/comments"));
 dotenv.config();
+var localRoutes = [users_1.default, comments_1.default];
+var prodRoutes = [comments_2.default, users_2.default];
+var env = process.env.NODE_ENV;
+var LOCAL_ENV_STRING = "local";
+var PROD_ENV_STRING = "production";
+var dbClient;
 (function () { return __awaiter(void 0, void 0, void 0, function () {
-    var app, err_1;
+    var app_1, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -80,16 +87,21 @@ dotenv.config();
             case 1:
                 _a.sent();
                 console.log("m-am conectat");
-                app = express_1.default();
-                app.use(cors_1.default());
+                app_1 = express_1.default();
+                app_1.use(cors_1.default());
                 //asta ma lasa sa primesc doar json in request
-                app.use(express_1.default.json());
-                app.use(guild_1.default);
-                app.use(users_1.default);
-                app.use(comments_1.default);
-                app.use(users_2.default);
-                app.use(comments_2.default);
-                app.get("/", function (req, res) {
+                app_1.use(express_1.default.json());
+                if (env === LOCAL_ENV_STRING) {
+                    dbClient = new Client_1.default("fjhsdkf", models_1.TestUser, models_1.TestComment);
+                    global.DB_CLIENT = dbClient;
+                    localRoutes.map(function (route) { app_1.use(route); });
+                }
+                else if (env === PROD_ENV_STRING) {
+                    dbClient = new Client_1.default("fjhsdkf", models_1.GokuUser, models_1.GokuComment);
+                    global.DB_CLIENT = dbClient;
+                    prodRoutes.map(function (route) { app_1.use(route); });
+                }
+                app_1.get("/", function (req, res) {
                     var json = {
                         message: "salut. faci get request la home route",
                         status: responseType_1.RESPONSE_TYPE.SUCCESS,
@@ -97,7 +109,7 @@ dotenv.config();
                     };
                     return res.json(json);
                 });
-                app.post("/", function (req, res) {
+                app_1.post("/", function (req, res) {
                     var json = {
                         message: "salut. faci post request la home route. daca primesti asta din bot, inseamna ca totul e ok :)",
                         status: responseType_1.RESPONSE_TYPE.SUCCESS,
@@ -106,26 +118,26 @@ dotenv.config();
                     return res.json(json);
                 });
                 //intra aici doar atunci cand nu am nicio ruta care sa se potriveasca pt url
-                app.get("*", function (req, res, next) {
+                app_1.get("*", function (req, res, next) {
                     return next(new errorHandler_1.ErrorHandler("nu am gasit ruta", 404));
                 });
                 //aici intra doar daca nu se poate gasi nicio ruta definita pt POST
-                app.post("*", function (req, res, next) {
+                app_1.post("*", function (req, res, next) {
                     // let err = new handleError.ErrorHandler(500, `Cannot post on this route: http://${req.get("host")}${req.url}`);
                     // return next(err);
                     return next(new errorHandler_1.ErrorHandler("nu ar trebui sa fac post aici"));
                 });
                 //aparent, in express, semnatura pentru un error handler trebuie sa aiba 4 argumente neaparat
-                app.use(function (err, req, res, next) {
+                app_1.use(function (err, req, res, next) {
                     return errorHandler_1.handlerError(err, res);
                 });
-                app.listen(3000, function () {
+                app_1.listen(3000, function () {
                     console.log("server pornit");
                 });
                 return [3 /*break*/, 3];
             case 2:
                 err_1 = _a.sent();
-                console.log("nu am putut sa pornesc serverul?");
+                console.log("nu am putut sa pornesc serverul?", err_1);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

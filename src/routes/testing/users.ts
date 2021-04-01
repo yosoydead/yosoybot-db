@@ -3,14 +3,14 @@ import { addUser, addUsers, getUser, getUsers, addMoney } from "../../controller
 
 const userRoute: Router = express.Router();
 
-userRoute.get("/test/user/:id", getUser);
+userRoute.get("/test/user/get/:id", (req, res, next) => getUser(req, res, next, global.DB_CLIENT));
 
-userRoute.get("/test/users", getUsers);
+userRoute.get("/test/users", (req, res, next) => getUsers(req, res, next, global.DB_CLIENT));
 
-userRoute.post("/test/user/:id", addUser);
+userRoute.post("/test/user/add/:id", (req, res, next) => addUser(req, res, next, global.DB_CLIENT));
 
-userRoute.post("/test/users", addUsers);
+userRoute.post("/test/users", (req, res, next) => addUsers(req, res, next, global.DB_CLIENT));
 
-userRoute.patch("/test/user/reward", addMoney);
+userRoute.patch("/test/user/reward", (req, res, next) => addMoney(req, res, next, global.DB_CLIENT));
 
 export default userRoute;

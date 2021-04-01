@@ -38,12 +38,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addComments = exports.addComment = exports.getComments = exports.getComment = void 0;
 var responseType_1 = require("../../responseType");
-var comment_1 = require("../../models/TestingServer/comment");
-var user_1 = require("../../models/TestingServer/user");
-var getComment = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+var getComment = function (req, res, next, dbClient) { return __awaiter(void 0, void 0, void 0, function () {
     var json;
     return __generator(this, function (_a) {
-        console.log(req.params.id);
+        dbClient.getRandomComment();
         json = {
             message: "de aici ar trebui sa pot returna detalii despre un singur comment cu id din param",
             statusCode: 200,
@@ -53,9 +51,10 @@ var getComment = function (req, res, next) { return __awaiter(void 0, void 0, vo
     });
 }); };
 exports.getComment = getComment;
-var getComments = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+var getComments = function (req, res, next, dbClient) { return __awaiter(void 0, void 0, void 0, function () {
     var json;
     return __generator(this, function (_a) {
+        dbClient.getComments();
         json = {
             message: "de aici ar trebui sa pot returna intreaga lista de commenturi din baza de date",
             statusCode: 200,
@@ -65,21 +64,11 @@ var getComments = function (req, res, next) { return __awaiter(void 0, void 0, v
     });
 }); };
 exports.getComments = getComments;
-var addComment = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+var addComment = function (req, res, next, dbClient) { return __awaiter(void 0, void 0, void 0, function () {
     var json;
     return __generator(this, function (_a) {
         // console.log(req.params.id);
-        console.log(req.body);
-        comment_1.TestComment.create({ content: req.body.content, author: req.body.author })
-            .then(function (com) {
-            console.log("inserat", com);
-            return user_1.TestUser.findOneAndUpdate({ discordUserId: req.body.author }, { $push: { comments: com._id } });
-        })
-            .then(function (user) {
-        })
-            .catch(function (err) {
-            console.log(err);
-        });
+        dbClient.addComment();
         json = {
             message: "aici a trebui sa pot adauga un comment in baza de date",
             statusCode: 200,
@@ -89,9 +78,10 @@ var addComment = function (req, res, next) { return __awaiter(void 0, void 0, vo
     });
 }); };
 exports.addComment = addComment;
-var addComments = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+var addComments = function (req, res, next, dbClient) { return __awaiter(void 0, void 0, void 0, function () {
     var json;
     return __generator(this, function (_a) {
+        dbClient.addComments();
         json = {
             message: "aici a trebui sa primesc o lista de commenturi, s-o iterez si sa adaug useri in baza de date",
             statusCode: 200,

@@ -5,7 +5,9 @@ import * as dotenv from "dotenv";
 
 import { ErrorHandler, handlerError } from "./middlewares/errorHandler";
 import { RESPONSE_TYPE } from "./responseType";
-import { ICustomJsonResponse } from "./types";
+import { ICustomJsonResponse, IDbCommunication } from "./types";
+import { TestComment, TestUser, GokuUser, GokuComment } from "./models";
+import DbClient from "./dbClient/Client";
 
 import testUserRouter from "./routes/testing/users";
 import testComment from "./routes/testing/comments";
@@ -20,6 +22,7 @@ const prodRoutes = [gokuComment, gokuUserRouter];
 const env = process.env.NODE_ENV;
 const LOCAL_ENV_STRING = "local";
 const PROD_ENV_STRING = "production";
+let dbClient: IDbCommunication;
 
 (async () => {
 	try {
@@ -36,11 +39,15 @@ const PROD_ENV_STRING = "production";
 		app.use(express.json());
 		
 		if (env === LOCAL_ENV_STRING) {
+			dbClient = new DbClient("fjhsdkf", TestUser, TestComment);
+			global.DB_CLIENT = dbClient;
 			localRoutes.map((route) => { app.use(route); });
 		} else if (env === PROD_ENV_STRING) {
+			dbClient = new DbClient("fjhsdkf", GokuUser, GokuComment);
+			global.DB_CLIENT = dbClient;
 			prodRoutes.map((route) => { app.use(route); });
 		}
-		
+
 		app.get("/", (req: Request, res: Response) => {
 			const json: ICustomJsonResponse = {
 				message: "salut. faci get request la home route",
