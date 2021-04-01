@@ -5,15 +5,50 @@ var DbClient = /** @class */ (function () {
         this.UsersModel = userModel;
         this.CommentsModel = commentsModel;
     }
+    DbClient.prototype.createResponseObject = function (message, statusCode, status) {
+        console.log("fac response msg");
+        return {
+            message: message,
+            statusCode: statusCode,
+            status: status
+        };
+    };
     // comments stuff
-    DbClient.prototype.addComment = function () {
+    DbClient.prototype.addComment = function (content, authorID) {
+        var _this = this;
         console.log("adaug comment");
+        return this.CommentsModel.create({ content: content, author: authorID })
+            .then(function (comment) {
+            return _this.UsersModel.findOneAndUpdate({ discordUserId: authorID }, { $push: { comments: comment._id } });
+        })
+            .then(function (user) {
+            console.log("success");
+            return _this.createResponseObject("Comment added successfully", 200, "sucess");
+        })
+            .catch(function (err) {
+            return _this.createResponseObject("Something went wrong", 500, "error");
+        });
     };
     DbClient.prototype.addComments = function () {
         console.log("adaug multe comentarii");
     };
     DbClient.prototype.getRandomComment = function () {
+        var _this = this;
         console.log("trag un comment random");
+        var quote;
+        return this.CommentsModel.find({})
+            .then(function (result) {
+            var index = Math.floor(Math.random() * result.length);
+            quote = result[index];
+            return _this.UsersModel.find({ discordUserId: quote.author });
+        })
+            .then(function (user) {
+            console.log(user);
+            return _this.createResponseObject("\"" + quote.content + "\" de " + user[0].discordUsername, 200, "sucess");
+        })
+            .catch(function (err) {
+            return _this.createResponseObject("Something went wrong", 500, "error");
+        });
     };
     DbClient.prototype.getComments = function () {
         console.log("trag toate comentariile");

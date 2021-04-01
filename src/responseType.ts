@@ -1,4 +1,1 @@
-export enum RESPONSE_TYPE {
-  SUCCESS = "success",
-  ERROR = "error",
-}
+export type RESPONSE_TYPE = "sucess" | "error";

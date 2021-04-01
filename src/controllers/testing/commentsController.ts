@@ -3,13 +3,13 @@ import { RESPONSE_TYPE } from "../../responseType";
 import { ICustomJsonResponse, IDbCommunication } from "../../types";
 
 export const getComment = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
-	dbClient.getRandomComment();
-	const json: ICustomJsonResponse = {
-		message: "de aici ar trebui sa pot returna detalii despre un singur comment cu id din param",
-		statusCode: 200,
-		status: RESPONSE_TYPE.SUCCESS
-	};
-	return res.json(json);
+	const result = await dbClient.getRandomComment();
+	// const json: ICustomJsonResponse = {
+	// 	message: "de aici ar trebui sa pot returna detalii despre un singur comment cu id din param",
+	// 	statusCode: 200,
+	// 	status: RESPONSE_TYPE.SUCCESS
+	// };
+	return res.json(result);
 };
 
 export const getComments = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
@@ -24,7 +24,10 @@ export const getComments = async (req: Request, res: Response, next: NextFunctio
 
 export const addComment = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
 	// console.log(req.params.id);
-	dbClient.addComment();
+	// dbClient.addComment();
+	const response = await dbClient.addComment(req.body.content, req.body.author);
+	console.log("comment response controller", response);
+	
 	// console.log(args);
 	// TestComment.create({ content: req.body.content, author: req.body.author })
 	// 	.then((com) => {
@@ -36,12 +39,12 @@ export const addComment = async (req: Request, res: Response, next: NextFunction
 	// 	.catch(err => {
 	// 		console.log(err);
 	// 	});
-	const json: ICustomJsonResponse = {
-		message: "aici a trebui sa pot adauga un comment in baza de date",
-		statusCode: 200,
-		status: RESPONSE_TYPE.SUCCESS 
-	};
-	return res.json(json);
+	// const json: ICustomJsonResponse = {
+	// 	message: "aici a trebui sa pot adauga un comment in baza de date",
+	// 	statusCode: 200,
+	// 	status: RESPONSE_TYPE.SUCCESS 
+	// };
+	return res.json(response);
 };
 
 export const addComments = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {

@@ -37,7 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addComments = exports.addComment = exports.getComments = exports.getComment = void 0;
-var responseType_1 = require("../../responseType");
 var getComment = function (req, res, next, dbClient) { return __awaiter(void 0, void 0, void 0, function () {
     var json;
     return __generator(this, function (_a) {
@@ -45,7 +44,7 @@ var getComment = function (req, res, next, dbClient) { return __awaiter(void 0, 
         json = {
             message: "de aici ar trebui sa pot returna detalii despre un singur comment cu id din param",
             statusCode: 200,
-            status: responseType_1.RESPONSE_TYPE.SUCCESS
+            status: RESPONSE_TYPE.SUCCESS
         };
         return [2 /*return*/, res.json(json)];
     });
@@ -58,7 +57,7 @@ var getComments = function (req, res, next, dbClient) { return __awaiter(void 0,
         json = {
             message: "de aici ar trebui sa pot returna intreaga lista de commenturi din baza de date",
             statusCode: 200,
-            status: responseType_1.RESPONSE_TYPE.SUCCESS
+            status: RESPONSE_TYPE.SUCCESS
         };
         return [2 /*return*/, res.json(json)];
     });
@@ -72,7 +71,7 @@ var addComment = function (req, res, next, dbClient) { return __awaiter(void 0, 
         json = {
             message: "aici a trebui sa pot adauga un comment in baza de date",
             statusCode: 200,
-            status: responseType_1.RESPONSE_TYPE.SUCCESS
+            status: RESPONSE_TYPE.SUCCESS
         };
         return [2 /*return*/, res.json(json)];
     });
@@ -85,7 +84,7 @@ var addComments = function (req, res, next, dbClient) { return __awaiter(void 0,
         json = {
             message: "aici a trebui sa primesc o lista de commenturi, s-o iterez si sa adaug useri in baza de date",
             statusCode: 200,
-            status: responseType_1.RESPONSE_TYPE.SUCCESS
+            status: RESPONSE_TYPE.SUCCESS
         };
         return [2 /*return*/, res.json(json)];
     });

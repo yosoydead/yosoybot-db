@@ -63,7 +63,6 @@ var cors_1 = __importDefault(require("cors"));
 var mongoose_1 = __importDefault(require("mongoose"));
 var dotenv = __importStar(require("dotenv"));
 var errorHandler_1 = require("./middlewares/errorHandler");
-var responseType_1 = require("./responseType");
 var models_1 = require("./models");
 var Client_1 = __importDefault(require("./dbClient/Client"));
 var users_1 = __importDefault(require("./routes/testing/users"));
@@ -104,7 +103,7 @@ var dbClient;
                 app_1.get("/", function (req, res) {
                     var json = {
                         message: "salut. faci get request la home route",
-                        status: responseType_1.RESPONSE_TYPE.SUCCESS,
+                        status: RESPONSE_TYPE.SUCCESS,
                         statusCode: 200
                     };
                     return res.json(json);
@@ -112,7 +111,7 @@ var dbClient;
                 app_1.post("/", function (req, res) {
                     var json = {
                         message: "salut. faci post request la home route. daca primesti asta din bot, inseamna ca totul e ok :)",
-                        status: responseType_1.RESPONSE_TYPE.SUCCESS,
+                        status: RESPONSE_TYPE.SUCCESS,
                         statusCode: 200
                     };
                     return res.json(json);

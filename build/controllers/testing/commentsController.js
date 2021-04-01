@@ -37,17 +37,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addComments = exports.addComment = exports.getComments = exports.getComment = void 0;
-var responseType_1 = require("../../responseType");
 var getComment = function (req, res, next, dbClient) { return __awaiter(void 0, void 0, void 0, function () {
-    var json;
+    var result;
     return __generator(this, function (_a) {
-        dbClient.getRandomComment();
-        json = {
-            message: "de aici ar trebui sa pot returna detalii despre un singur comment cu id din param",
-            statusCode: 200,
-            status: responseType_1.RESPONSE_TYPE.SUCCESS
-        };
-        return [2 /*return*/, res.json(json)];
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, dbClient.getRandomComment()];
+            case 1:
+                result = _a.sent();
+                // const json: ICustomJsonResponse = {
+                // 	message: "de aici ar trebui sa pot returna detalii despre un singur comment cu id din param",
+                // 	statusCode: 200,
+                // 	status: RESPONSE_TYPE.SUCCESS
+                // };
+                return [2 /*return*/, res.json(result)];
+        }
     });
 }); };
 exports.getComment = getComment;
@@ -58,23 +61,38 @@ var getComments = function (req, res, next, dbClient) { return __awaiter(void 0,
         json = {
             message: "de aici ar trebui sa pot returna intreaga lista de commenturi din baza de date",
             statusCode: 200,
-            status: responseType_1.RESPONSE_TYPE.SUCCESS
+            status: RESPONSE_TYPE.SUCCESS
         };
         return [2 /*return*/, res.json(json)];
     });
 }); };
 exports.getComments = getComments;
 var addComment = function (req, res, next, dbClient) { return __awaiter(void 0, void 0, void 0, function () {
-    var json;
+    var response;
     return __generator(this, function (_a) {
-        // console.log(req.params.id);
-        dbClient.addComment();
-        json = {
-            message: "aici a trebui sa pot adauga un comment in baza de date",
-            statusCode: 200,
-            status: responseType_1.RESPONSE_TYPE.SUCCESS
-        };
-        return [2 /*return*/, res.json(json)];
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, dbClient.addComment(req.body.content, req.body.author)];
+            case 1:
+                response = _a.sent();
+                console.log("comment response controller", response);
+                // console.log(args);
+                // TestComment.create({ content: req.body.content, author: req.body.author })
+                // 	.then((com) => {
+                // 		console.log("inserat", com);
+                // 		return TestUser.findOneAndUpdate({ discordUserId: req.body.author }, { $push: { comments: com._id }});
+                // 	})
+                // 	.then(user => {
+                // 	})
+                // 	.catch(err => {
+                // 		console.log(err);
+                // 	});
+                // const json: ICustomJsonResponse = {
+                // 	message: "aici a trebui sa pot adauga un comment in baza de date",
+                // 	statusCode: 200,
+                // 	status: RESPONSE_TYPE.SUCCESS 
+                // };
+                return [2 /*return*/, res.json(response)];
+        }
     });
 }); };
 exports.addComment = addComment;
@@ -85,7 +103,7 @@ var addComments = function (req, res, next, dbClient) { return __awaiter(void 0,
         json = {
             message: "aici a trebui sa primesc o lista de commenturi, s-o iterez si sa adaug useri in baza de date",
             statusCode: 200,
-            status: responseType_1.RESPONSE_TYPE.SUCCESS
+            status: RESPONSE_TYPE.SUCCESS
         };
         return [2 /*return*/, res.json(json)];
     });

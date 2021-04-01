@@ -14,7 +14,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handlerError = exports.ErrorHandler = void 0;
-var responseType_1 = require("../responseType");
 var ErrorHandler = /** @class */ (function (_super) {
     __extends(ErrorHandler, _super);
     function ErrorHandler(message, statusCode) {
@@ -31,7 +30,7 @@ var handlerError = function (err, res) {
     var message = err.message, _statusCode = err._statusCode;
     var json = {
         message: message,
-        status: responseType_1.RESPONSE_TYPE.ERROR,
+        status: RESPONSE_TYPE.ERROR,
         statusCode: _statusCode
     };
     return res

@@ -37,7 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addMoney = exports.addUsers = exports.addUser = exports.getUsers = exports.getUser = void 0;
-var responseType_1 = require("../../responseType");
 var getUser = function (req, res, next, dbClient) { return __awaiter(void 0, void 0, void 0, function () {
     var json;
     return __generator(this, function (_a) {
@@ -46,7 +45,7 @@ var getUser = function (req, res, next, dbClient) { return __awaiter(void 0, voi
         json = {
             message: "de aici ar trebui sa pot returna detalii despre un singur user cu id din param",
             statusCode: 200,
-            status: responseType_1.RESPONSE_TYPE.SUCCESS
+            status: RESPONSE_TYPE.SUCCESS
         };
         return [2 /*return*/, res.json(json)];
     });
@@ -59,7 +58,7 @@ var getUsers = function (req, res, next, dbClient) { return __awaiter(void 0, vo
         json = {
             message: "de aici ar trebui sa pot returna intreaga lista de useri din baza de date",
             statusCode: 200,
-            status: responseType_1.RESPONSE_TYPE.SUCCESS
+            status: RESPONSE_TYPE.SUCCESS
         };
         return [2 /*return*/, res.json(json)];
     });
@@ -73,7 +72,7 @@ var addUser = function (req, res, next, dbClient) { return __awaiter(void 0, voi
         json = {
             message: "aici a trebui sa pot adauga un user in baza de date",
             statusCode: 200,
-            status: responseType_1.RESPONSE_TYPE.SUCCESS
+            status: RESPONSE_TYPE.SUCCESS
         };
         return [2 /*return*/, res.json(json)];
     });
@@ -87,7 +86,7 @@ var addUsers = function (req, res, next, dbClient) { return __awaiter(void 0, vo
         json = {
             message: "aici a trebui sa primesc o lista de useri, s-o iterez si sa adaug useri in baza de date",
             statusCode: 200,
-            status: responseType_1.RESPONSE_TYPE.SUCCESS
+            status: RESPONSE_TYPE.SUCCESS
         };
         return [2 /*return*/, res.json(json)];
     });
@@ -101,7 +100,7 @@ var addMoney = function (req, res, next, dbClient) { return __awaiter(void 0, vo
         json = {
             message: "aici a trebui sa pot adauga un user in baza de date",
             statusCode: 200,
-            status: responseType_1.RESPONSE_TYPE.SUCCESS
+            status: RESPONSE_TYPE.SUCCESS
         };
         return [2 /*return*/, res.json(json)];
     });
