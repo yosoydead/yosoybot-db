@@ -1,6 +1,10 @@
-FROM alpine
+FROM alpine:3.12
 
 RUN apk add --update nodejs npm
+
+RUN node -v
+
+RUN npm -v
 
 WORKDIR /home/app
 
