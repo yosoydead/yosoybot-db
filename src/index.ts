@@ -51,7 +51,7 @@ let dbClient: IDbCommunication;
 		app.get("/", (req: Request, res: Response) => {
 			const json: ICustomJsonResponse = {
 				message: "salut. faci get request la home route",
-				status: RESPONSE_TYPE.SUCCESS,
+				status: "sucess",
 				statusCode: 200
 			};
 
@@ -61,7 +61,7 @@ let dbClient: IDbCommunication;
 		app.post("/", (req: Request, res: Response) => {
 			const json: ICustomJsonResponse = {
 				message: "salut. faci post request la home route. daca primesti asta din bot, inseamna ca totul e ok :)",
-				status: RESPONSE_TYPE.SUCCESS,
+				status: "sucess",
 				statusCode: 200
 			};
 
