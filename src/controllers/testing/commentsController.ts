@@ -24,8 +24,8 @@ export const getComments = async (req: Request, res: Response, next: NextFunctio
 export const addComment = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
 	// console.log(req.params.id);
 	// dbClient.addComment();
-	const response = await dbClient.addComment(req.body.content, req.body.author);
-	console.log("comment response controller", response);
+	// const response = await dbClient.addComment(req.body.content, req.body.author);
+	// console.log("comment response controller", response);
 	
 	// console.log(args);
 	// TestComment.create({ content: req.body.content, author: req.body.author })
@@ -43,7 +43,7 @@ export const addComment = async (req: Request, res: Response, next: NextFunction
 	// 	statusCode: 200,
 	// 	status: RESPONSE_TYPE.SUCCESS 
 	// };
-	return res.json(response);
+	// return res.json(response);
 };
 
 export const addComments = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {

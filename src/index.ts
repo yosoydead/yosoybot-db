@@ -4,7 +4,6 @@ import mongoose from "mongoose";
 import * as dotenv from "dotenv";
 
 import { ErrorHandler, handlerError } from "./middlewares/errorHandler";
-import { RESPONSE_TYPE } from "./responseType";
 import { ICustomJsonResponse, IDbCommunication } from "./types";
 import { TestComment, TestUser, GokuUser, GokuComment } from "./models";
 import DbClient from "./dbClient/Client";
@@ -39,11 +38,15 @@ let dbClient: IDbCommunication;
 		app.use(express.json());
 		
 		if (env === LOCAL_ENV_STRING) {
+			// @ts-ignore
 			dbClient = new DbClient("fjhsdkf", TestUser, TestComment);
+			// @ts-ignore
 			global.DB_CLIENT = dbClient;
 			localRoutes.map((route) => { app.use(route); });
 		} else if (env === PROD_ENV_STRING) {
+			// @ts-ignore
 			dbClient = new DbClient("fjhsdkf", GokuUser, GokuComment);
+			// @ts-ignore
 			global.DB_CLIENT = dbClient;
 			prodRoutes.map((route) => { app.use(route); });
 		}

@@ -20,10 +20,12 @@ export default class DbClient<U extends Document, C extends Document> implements
   	};
   }
   // comments stuff
+	// @ts-ignore
   addComment(content: string, authorID: string) {
   	console.log("adaug comment");
   	return this.CommentsModel.create({ content: content, author: authorID })
   		.then((comment) => {
+				// @ts-ignore
   			return this.UsersModel.findOneAndUpdate({ discordUserId: authorID }, {$push: { comments: comment._id }});
   		})
   		.then((user) => {
@@ -41,22 +43,22 @@ export default class DbClient<U extends Document, C extends Document> implements
 
   getRandomComment() {
   	console.log("trag un comment random");
-    let quote;
-    return this.CommentsModel.find({})
-      .then((result) => {
-        const index = Math.floor(Math.random() * result.length);
-        quote = result[index];
+  	let quote: any;
+  	return this.CommentsModel.find({})
+  		.then((result: any) => {
+  			const index = Math.floor(Math.random() * result.length);
+  			quote = result[index];
 
-        return this.UsersModel.find({ discordUserId: quote.author});
-      })
-      .then((user) => {
-        console.log(user);
+  			return this.UsersModel.find({ discordUserId: quote.author});
+  		})
+  		.then((user: any) => {
+  			console.log(user);
         
-        return this.createResponseObject(`"${quote.content}" de ${user[0].discordUsername}`, 200, "sucess");
-      })
-      .catch((err) => {
-        return this.createResponseObject("Something went wrong", 500, "error");
-      });
+  			return this.createResponseObject(`"${quote.content}" de ${user[0].discordUsername}`, 200, "sucess");
+  		})
+  		.catch((err: any) => {
+  			return this.createResponseObject("Something went wrong", 500, "error");
+  		});
   }
 
   getComments() {
