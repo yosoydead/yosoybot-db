@@ -1,14 +1,23 @@
-import express, { Router  } from "express";
+import { Router  } from "express";
 import { addComment, addComments, getComment, getComments } from "../../controllers/testing/commentsController";
+import { ICustomRoute } from "../../types";
+import { routeIterator } from "../../utils/routesIterator";
 
-const commentRoute: Router = express.Router();
-// @ts-ignore
-commentRoute.get("/test/comment/random", (request, response, next) => getComment(request, response, next, global.DB_CLIENT));
-// @ts-ignore
-commentRoute.get("/test/comments", (request, response, next) => getComments(request, response, next, global.DB_CLIENT));
-// @ts-ignore
-commentRoute.post("/test/comment", (request, response, next) => addComment(request, response, next, global.DB_CLIENT));
-// @ts-ignore
-commentRoute.post("/test/comments", (request, response, next) => addComments(request, response, next, global.DB_CLIENT));
+const routesConfig: ICustomRoute[] = [
+	//get routes
+	{ action: "get", url: "/test/comment/random", routeHandler: getComment },
+	{ action: "get", url: "/test/comments", routeHandler: getComments },
+
+	//post routes
+	{ action: "post", url: "/test/comment", routeHandler: addComment },
+	{ action: "post", url: "/test/comments", routeHandler: addComments },
+
+	//put routes
+
+	//patch routes
+
+	//delete routes
+];
+const commentRoute: Router = routeIterator(routesConfig);
 
 export default commentRoute;

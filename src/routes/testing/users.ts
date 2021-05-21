@@ -1,16 +1,25 @@
-import express, { Router  } from "express";
+import { Router  } from "express";
 import { addUser, addUsers, getUser, getUsers, addMoney } from "../../controllers/testing/usersController";
-const userRoute: Router = express.Router();
+import { ICustomRoute } from "../../types";
+import { routeIterator } from "../../utils/routesIterator";
 
-// @ts-ignore
-userRoute.get("/test/user/get/:id", (req, res, next) => getUser(req, res, next, global.DB_CLIENT));
-// @ts-ignore
-userRoute.get("/test/users", (req, res, next) => getUsers(req, res, next, global.DB_CLIENT));
-// @ts-ignore
-userRoute.post("/test/user/add/:id", (req, res, next) => addUser(req, res, next, global.DB_CLIENT));
-// @ts-ignore
-userRoute.post("/test/users", (req, res, next) => addUsers(req, res, next, global.DB_CLIENT));
-// @ts-ignore
-userRoute.patch("/test/user/reward", (req, res, next) => addMoney(req, res, next, global.DB_CLIENT));
+// const userRoute: Router = express.Router();
+const routesConfig: ICustomRoute[] = [
+	//get routes
+	{ action: "get", url: "/test/user/get/:id", routeHandler: getUser },
+	{ action: "get", url: "/test/users", routeHandler: getUsers },
+
+	//post routes
+	{ action: "post", url: "/test/user/add/:id", routeHandler: addUser },
+	{ action: "post", url: "/test/users", routeHandler: addUsers },
+
+	//put routes
+
+	//patch routes
+	{ action: "patch", url: "/test/user/reward", routeHandler: addMoney }
+
+	//delete routes
+];
+const userRoute: Router = routeIterator(routesConfig);
 
 export default userRoute;

@@ -10,10 +10,7 @@ export type API_OPERATIONS = "get" | "post" | "put" | "patch" | "delete";
 export interface ICustomRoute {
   url: string;
   routeHandler: (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => any;
-}
-
-export interface IRouteConfig {
-  (operation: API_OPERATIONS): [ICustomRoute]
+  action: API_OPERATIONS;
 }
 
 export interface IDbCommunication {
