@@ -1,15 +1,23 @@
-import express, { Router  } from "express";
+import { Router } from "express";
 import { addComment, addComments, getComment, getComments } from "../../controllers/gokuServer/commentsController";
+import { ICustomRoute } from "../../types";
+import { routeIterator } from "../../utils/routesIterator";
 
-const commentRoute: Router = express.Router();
+const routesConfig: ICustomRoute[] = [
+	//get routes
+	{ action: "get", url: "/goku/comment/random", routeHandler: getComment },
+	{ action: "get", url: "/goku/comments", routeHandler: getComments },
 
-// @ts-ignore
-commentRoute.get("/goku/comment/random", (request, response, next) => getComment(request, response, next, global.DB_CLIENT));
-// @ts-ignore
-commentRoute.get("/goku/comments", (request, response, next) => getComments(request, response, next, global.DB_CLIENT));
-// @ts-ignore
-commentRoute.post("/goku/comment", (request, response, next) => addComment(request, response, next, global.DB_CLIENT));
-// @ts-ignore
-commentRoute.post("/goku/comments", (request, response, next) => addComments(request, response, next, global.DB_CLIENT));
+	//post routes
+	{ action: "post", url: "/goku/comment", routeHandler: addComment },
+	{ action: "post", url: "/goku/comments", routeHandler: addComments },
+
+	//put routes
+
+	//patch routes
+
+	//delete routes
+];
+const commentRoute: Router = routeIterator(routesConfig);
 
 export default commentRoute;

@@ -3,7 +3,6 @@ import { addUser, addUsers, getUser, getUsers, addMoney } from "../../controller
 import { ICustomRoute } from "../../types";
 import { routeIterator } from "../../utils/routesIterator";
 
-// const userRoute: Router = express.Router();
 const routesConfig: ICustomRoute[] = [
 	//get routes
 	{ action: "get", url: "/test/user/get/:id", routeHandler: getUser },
