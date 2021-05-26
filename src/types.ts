@@ -15,6 +15,7 @@ export interface ICustomRoute {
 }
 
 export interface IDbCommunication {
+  appMode: APP_ENV;
   // comments related stuff
   addComment(content: string, authorID: string): any;
   addComments(): any;
