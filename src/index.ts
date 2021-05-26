@@ -35,14 +35,8 @@ DbFactory.createInstance(env);
 		app.use(express.json());
 		
 		if (env === "local") {
-			// dbClient = new DbClient("fjhsdkf", TestUser, TestComment);
-			// // @ts-ignore
-			// global.DB_CLIENT = dbClient;
 			localRoutes.map((route) => { app.use(route); });
 		} else if (env === "production") {
-			// dbClient = new DbClient("fjhsdkf", GokuUser, GokuComment);
-			// // @ts-ignore
-			// global.DB_CLIENT = dbClient;
 			prodRoutes.map((route) => { app.use(route); });
 		}
 
@@ -74,7 +68,6 @@ DbFactory.createInstance(env);
 		//aici intra doar daca nu se poate gasi nicio ruta definita pt POST
 		app.post("*", (req: Request, res: Response, next: NextFunction) => {
 			// let err = new handleError.ErrorHandler(500, `Cannot post on this route: http://${req.get("host")}${req.url}`);
-			// return next(err);
 			return next(new ErrorHandler("nu ar trebui sa fac post aici"));
 		});
 
