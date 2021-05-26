@@ -1,5 +1,5 @@
 import { Router  } from "express";
-import { addUser, addUsers, getUser, getUsers, addMoney } from "../../controllers/testing/usersController";
+import { getUser, getUsers, addUser, addUsers, addMoney } from "../../controllers/genericUserController";
 import { ICustomRoute } from "../../types";
 import { routeIterator } from "../../utils/routesIterator";
 

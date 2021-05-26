@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { IDbCommunication, ICustomJsonResponse } from "../types";
 
 export const getUser = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
-	// dbClient.getUserData();
+	dbClient.getUserData();
 
 	const json: ICustomJsonResponse = {
 		message: "de aici ar trebui sa pot returna detalii despre un singur user cu id din param",
@@ -13,7 +13,7 @@ export const getUser = async (req: Request, res: Response, next: NextFunction, d
 };
 
 export const getUsers = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
-	// dbClient.getAllUsers();
+	dbClient.getAllUsers();
 
 	const json: ICustomJsonResponse = {
 		message: "de aici ar trebui sa pot returna intreaga lista de useri din baza de date",
@@ -25,7 +25,7 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction, 
 
 export const addUser = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
 	// console.log(req.params.id);
-	// dbClient.addUser();
+	dbClient.addUser();
 
 	const json: ICustomJsonResponse = {
 		message: "aici a trebui sa pot adauga un user in baza de date",
@@ -37,7 +37,7 @@ export const addUser = async (req: Request, res: Response, next: NextFunction, d
 
 export const addUsers = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
 	// console.log(req.body);
-	// dbClient.addUsers();
+	dbClient.addUsers();
 	const json: ICustomJsonResponse = {
 		message: "aici a trebui sa primesc o lista de useri, s-o iterez si sa adaug useri in baza de date",
 		statusCode: 200,
@@ -48,7 +48,7 @@ export const addUsers = async (req: Request, res: Response, next: NextFunction, 
 
 export const addMoney = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
 	// console.log(req.body);
-	// dbClient.rewardUser();
+	dbClient.rewardUser();
 
 	const json: ICustomJsonResponse = {
 		message: "aici a trebui sa pot adauga un user in baza de date",
