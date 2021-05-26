@@ -7,6 +7,7 @@ export interface ICustomJsonResponse {
 }
 
 export type API_OPERATIONS = "get" | "post" | "put" | "patch" | "delete";
+export type APP_ENV = "local" | "production";
 export interface ICustomRoute {
   url: string;
   routeHandler: (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => any;
@@ -15,7 +16,7 @@ export interface ICustomRoute {
 
 export interface IDbCommunication {
   // comments related stuff
-  addComment(): any;
+  addComment(content: string, authorID: string): any;
   addComments(): any;
   getRandomComment(): any;
   getComments(): any;

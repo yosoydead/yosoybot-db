@@ -3,30 +3,32 @@ import cors from "cors";
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
 
+// mutat aici pentru ca vreau sa citesc NODE_ENV cat se poate de repede
+dotenv.config();
+
 import { ErrorHandler, handlerError } from "./middlewares/errorHandler";
-import { ICustomJsonResponse, IDbCommunication } from "./types";
-import { TestComment, TestUser, GokuUser, GokuComment } from "./models";
-import DbClient from "./dbClient/Client";
+import { APP_ENV, ICustomJsonResponse } from "./types";
+import DbFactory from "./utils/dbFactory";
+
+/* 
+	- initializez aici instanta de Client pentru ca rutele sunt create printr-o functie
+	- daca rutele sunt importate inainte de initializarea Client, ele o sa citeasca instanta drept UNDEFINED si totul o sa crape
+*/
+const env: APP_ENV | undefined | string = process.env.NODE_ENV;
+DbFactory.createInstance(env);
 
 import testUserRouter from "./routes/testing/users";
 import testComment from "./routes/testing/comments";
 import gokuUserRouter from "./routes/goku/users";
 import gokuComment from "./routes/goku/comments";
 
-dotenv.config();
-
 const localRoutes = [testUserRouter, testComment];
 const prodRoutes = [gokuComment, gokuUserRouter];
-
-const env = process.env.NODE_ENV;
-const LOCAL_ENV_STRING = "local";
-const PROD_ENV_STRING = "production";
-let dbClient: IDbCommunication;
 
 (async () => {
 	try {
 		await mongoose.connect(
-			`mongodb+srv://yosoydead:${process.env.DB_PASSWORD}@yosoybotdb.fsga3.mongodb.net/<dbname>?retryWrites=true&w=majority`,
+			`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@yosoybotdb.fsga3.mongodb.net/<dbname>?retryWrites=true&w=majority`,
 			{ useNewUrlParser: true, useUnifiedTopology: true }
 		);
 
@@ -37,17 +39,9 @@ let dbClient: IDbCommunication;
 		//asta ma lasa sa primesc doar json in request
 		app.use(express.json());
 		
-		if (env === LOCAL_ENV_STRING) {
-			// @ts-ignore
-			dbClient = new DbClient("fjhsdkf", TestUser, TestComment);
-			// @ts-ignore
-			global.DB_CLIENT = dbClient;
+		if (env === "local") {
 			localRoutes.map((route) => { app.use(route); });
-		} else if (env === PROD_ENV_STRING) {
-			// @ts-ignore
-			dbClient = new DbClient("fjhsdkf", GokuUser, GokuComment);
-			// @ts-ignore
-			global.DB_CLIENT = dbClient;
+		} else if (env === "production") {
 			prodRoutes.map((route) => { app.use(route); });
 		}
 
@@ -79,7 +73,6 @@ let dbClient: IDbCommunication;
 		//aici intra doar daca nu se poate gasi nicio ruta definita pt POST
 		app.post("*", (req: Request, res: Response, next: NextFunction) => {
 			// let err = new handleError.ErrorHandler(500, `Cannot post on this route: http://${req.get("host")}${req.url}`);
-			// return next(err);
 			return next(new ErrorHandler("nu ar trebui sa fac post aici"));
 		});
 
