@@ -3,27 +3,32 @@ import cors from "cors";
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
 
+// mutat aici pentru ca vreau sa citesc NODE_ENV cat se poate de repede
+dotenv.config();
+
 import { ErrorHandler, handlerError } from "./middlewares/errorHandler";
 import { APP_ENV, ICustomJsonResponse } from "./types";
 import DbFactory from "./utils/dbFactory";
+
+/* 
+	- initializez aici instanta de Client pentru ca rutele sunt create printr-o functie
+	- daca rutele sunt importate inainte de initializarea Client, ele o sa citeasca instanta drept UNDEFINED si totul o sa crape
+*/
+const env: APP_ENV | undefined | string = process.env.NODE_ENV;
+DbFactory.createInstance(env);
 
 import testUserRouter from "./routes/testing/users";
 import testComment from "./routes/testing/comments";
 import gokuUserRouter from "./routes/goku/users";
 import gokuComment from "./routes/goku/comments";
 
-dotenv.config();
-
 const localRoutes = [testUserRouter, testComment];
 const prodRoutes = [gokuComment, gokuUserRouter];
-
-const env: APP_ENV | undefined | string = process.env.NODE_ENV;
-DbFactory.createInstance(env);
 
 (async () => {
 	try {
 		await mongoose.connect(
-			`mongodb+srv://yosoydead:${process.env.DB_PASSWORD}@yosoybotdb.fsga3.mongodb.net/<dbname>?retryWrites=true&w=majority`,
+			`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@yosoybotdb.fsga3.mongodb.net/<dbname>?retryWrites=true&w=majority`,
 			{ useNewUrlParser: true, useUnifiedTopology: true }
 		);
 
