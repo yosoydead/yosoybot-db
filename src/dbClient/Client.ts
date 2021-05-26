@@ -20,12 +20,11 @@ export default class DbClient<U extends Document, C extends Document> implements
   	};
   }
   // comments stuff
-	// @ts-ignore
   addComment(content: string, authorID: string) {
   	console.log("adaug comment");
   	return this.CommentsModel.create({ content: content, author: authorID })
   		.then((comment) => {
-				// @ts-ignore
+  			// @ts-ignore
   			return this.UsersModel.findOneAndUpdate({ discordUserId: authorID }, {$push: { comments: comment._id }});
   		})
   		.then((user) => {
@@ -86,3 +85,19 @@ export default class DbClient<U extends Document, C extends Document> implements
   	console.log("dau rublerts unui user");
   }
 }
+
+// export const SingletonFactory = () => {
+// 	let instance: any;
+
+// 	return {
+// 		getInstance: function() {
+// 			if (instance === null) {
+// 				instance = new DbClient("dsadasdasdas", userModel, commentsModel);
+// 			}
+
+// 			return instance;
+// 		}
+// 	}
+// };
+
+// SingletonFactory().getInstance();

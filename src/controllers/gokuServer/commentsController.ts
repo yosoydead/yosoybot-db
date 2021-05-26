@@ -23,7 +23,7 @@ export const getComments = async (req: Request, res: Response, next: NextFunctio
 
 export const addComment = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
 	// console.log(req.params.id);
-	dbClient.addComment();
+	// dbClient.addComment();
 	// console.log(args);
 	// TestComment.create({ content: req.body.content, author: req.body.author })
 	// 	.then((com) => {

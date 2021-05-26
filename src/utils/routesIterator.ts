@@ -1,5 +1,6 @@
 import { ICustomRoute } from "../types";
 import express, { Router} from "express";
+import DbFactory from "./dbFactory";
 
 export function routeIterator (routesConfig: ICustomRoute[]): Router {
 	const resultRouter: Router = express.Router();
@@ -8,23 +9,23 @@ export function routeIterator (routesConfig: ICustomRoute[]): Router {
 		const currentElement = routesConfig[i];
 		switch(currentElement.action) {
 		case "get": {
-			resultRouter.get(currentElement.url, (req, res, next) => currentElement.routeHandler(req, res, next, global.DB_CLIENT));
+			resultRouter.get(currentElement.url, (req, res, next) => currentElement.routeHandler(req, res, next, DbFactory.getInstance()));
 			break;
 		}
 		case "post": {
-			resultRouter.post(currentElement.url, (req, res, next) => currentElement.routeHandler(req, res, next, global.DB_CLIENT));
+			resultRouter.post(currentElement.url, (req, res, next) => currentElement.routeHandler(req, res, next, DbFactory.getInstance()));
 			break;
 		}
 		case "patch": {
-			resultRouter.patch(currentElement.url, (req, res, next) => currentElement.routeHandler(req, res, next, global.DB_CLIENT));
+			resultRouter.patch(currentElement.url, (req, res, next) => currentElement.routeHandler(req, res, next, DbFactory.getInstance()));
 			break;
 		}
 		case "put": {
-			resultRouter.put(currentElement.url, (req, res, next) => currentElement.routeHandler(req, res, next, global.DB_CLIENT));
+			resultRouter.put(currentElement.url, (req, res, next) => currentElement.routeHandler(req, res, next, DbFactory.getInstance()));
 			break;
 		}
 		case "delete": {
-			resultRouter.delete(currentElement.url, (req, res, next) => currentElement.routeHandler(req, res, next, global.DB_CLIENT));
+			resultRouter.delete(currentElement.url, (req, res, next) => currentElement.routeHandler(req, res, next, DbFactory.getInstance()));
 			break;
 		}
 		default: {

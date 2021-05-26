@@ -4,9 +4,8 @@ import mongoose from "mongoose";
 import * as dotenv from "dotenv";
 
 import { ErrorHandler, handlerError } from "./middlewares/errorHandler";
-import { ICustomJsonResponse, IDbCommunication } from "./types";
-import { TestComment, TestUser, GokuUser, GokuComment } from "./models";
-import DbClient from "./dbClient/Client";
+import { APP_ENV, ICustomJsonResponse } from "./types";
+import DbFactory from "./utils/dbFactory";
 
 import testUserRouter from "./routes/testing/users";
 import testComment from "./routes/testing/comments";
@@ -18,10 +17,8 @@ dotenv.config();
 const localRoutes = [testUserRouter, testComment];
 const prodRoutes = [gokuComment, gokuUserRouter];
 
-const env = process.env.NODE_ENV;
-const LOCAL_ENV_STRING = "local";
-const PROD_ENV_STRING = "production";
-let dbClient: IDbCommunication;
+const env: APP_ENV | undefined | string = process.env.NODE_ENV;
+DbFactory.createInstance(env);
 
 (async () => {
 	try {
@@ -37,17 +34,15 @@ let dbClient: IDbCommunication;
 		//asta ma lasa sa primesc doar json in request
 		app.use(express.json());
 		
-		if (env === LOCAL_ENV_STRING) {
-			// @ts-ignore
-			dbClient = new DbClient("fjhsdkf", TestUser, TestComment);
-			// @ts-ignore
-			global.DB_CLIENT = dbClient;
+		if (env === "local") {
+			// dbClient = new DbClient("fjhsdkf", TestUser, TestComment);
+			// // @ts-ignore
+			// global.DB_CLIENT = dbClient;
 			localRoutes.map((route) => { app.use(route); });
-		} else if (env === PROD_ENV_STRING) {
-			// @ts-ignore
-			dbClient = new DbClient("fjhsdkf", GokuUser, GokuComment);
-			// @ts-ignore
-			global.DB_CLIENT = dbClient;
+		} else if (env === "production") {
+			// dbClient = new DbClient("fjhsdkf", GokuUser, GokuComment);
+			// // @ts-ignore
+			// global.DB_CLIENT = dbClient;
 			prodRoutes.map((route) => { app.use(route); });
 		}
 
