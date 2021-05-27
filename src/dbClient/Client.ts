@@ -1,13 +1,13 @@
-import { IDbCommunication, ICustomJsonResponse, APP_ENV, IUserMongoose, ICommentMongoose } from "../types";
+import { IDbCommunication, ICustomJsonResponse, APP_ENV, IUserMongoose, IComment, ICommentMongoose, IUser } from "../types";
 import { Model, Document } from "mongoose";
 import { RESPONSE_TYPE } from "../responseType";
 
-export default class DbClient<U extends Document, C extends Document> implements IDbCommunication {
-  private UsersModel: Model<U>;
-  private CommentsModel: Model<C>;
+export default class DbClient implements IDbCommunication {
+  private UsersModel: Model<IUserMongoose>;
+  private CommentsModel: Model<ICommentMongoose>;
 	appMode: APP_ENV;
 
-	constructor(mode: APP_ENV, userModel: Model<U>, commentsModel: Model<C>) {
+	constructor(mode: APP_ENV, userModel: Model<IUserMongoose>, commentsModel: Model<ICommentMongoose>) {
 		this.UsersModel = userModel;
 		this.CommentsModel = commentsModel;
 		this.appMode = mode;
@@ -20,7 +20,7 @@ export default class DbClient<U extends Document, C extends Document> implements
 	addComment(content: string, authorID: string): Promise<ICustomJsonResponse> {
 		console.log("adaug comment");
 		return this.CommentsModel.create({ content: content, author: authorID })
-			.then((comment: C): Promise<IUserMongoose> => {
+			.then((comment): Promise<IUserMongoose> => {
 				// @ts-ignore
 				return this.UsersModel.findOneAndUpdate({ discordUserId: authorID }, { $push: { comments: comment._id } });
 			})
@@ -32,8 +32,32 @@ export default class DbClient<U extends Document, C extends Document> implements
 			});
 	}
 
-	addComments() {
-  	console.log("adaug multe comentarii");
+	addComments(comments: IComment[]): Promise<ICustomJsonResponse> {
+		console.log("adaug multe comentarii", ...comments);
+		return this.CommentsModel.insertMany(comments)
+			.then((commentsRequest): Promise<ICustomJsonResponse> => {
+				// console.log("succes", commentsRequest);
+				return this.UsersModel.find({})
+					.then((usersRequest: IUserMongoose[]) => {
+						const newUsersList = [...usersRequest];
+						for(let i = 0; i < commentsRequest.length; i++) {
+							const user = newUsersList.find(u => u.discordUserId === commentsRequest[i].author);
+							// nu are cum sa nu gaseasca userul respectiv dar daca nu il pun nullable, ar da eroare la compilare
+							user?.comments.push(commentsRequest[i]._id);
+						}
+
+						return Promise.all(newUsersList.map(async (user) => {
+							await this.UsersModel.updateOne({ _id: user._id}, { $set: { comments: user.comments }});
+						}));
+					})
+					.then(() => {
+						return this.createResponseObject(`Am adaugat ${commentsRequest.length} comentarii cu succes >:)`, 200, "sucess");
+					});
+			})
+			.catch((err) => {
+				console.log(err);
+				return this.createResponseObject("Ceva nu e in regula. A se verifica canalul de loguri.", 500, "error");
+			});
 	}
 
 	getRandomComment() {

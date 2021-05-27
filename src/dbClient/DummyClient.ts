@@ -1,4 +1,4 @@
-import { IDbCommunication, APP_ENV, ICustomJsonResponse } from "../types";
+import { IDbCommunication, APP_ENV, ICustomJsonResponse, IComment } from "../types";
 import { Model, Document } from "mongoose";
 
 export default class DbClient<U extends Document, C extends Document> implements IDbCommunication {
@@ -21,8 +21,15 @@ export default class DbClient<U extends Document, C extends Document> implements
   	console.log(`DummyClient console logging mode: ${this.appMode} addComment()`);
   	return Promise.resolve(dummyRes);
   }
-  addComments() {
+  addComments(comments: IComment[]) {
   	console.log(`DummyClient console logging mode: ${this.appMode} addComments()`);
+    const dummyRes: ICustomJsonResponse = {
+  		message: "adaugat comments din dummy",
+  		status: "sucess",
+  		statusCode: 200
+  	};
+  	console.log(`DummyClient console logging mode: ${this.appMode} addComments()`, comments);
+  	return Promise.resolve(dummyRes);
   }
   getRandomComment() {
   	console.log(`DummyClient console logging mode: ${this.appMode} getRandomComment()`);
