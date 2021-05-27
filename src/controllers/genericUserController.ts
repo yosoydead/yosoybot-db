@@ -15,20 +15,14 @@ export const addUser = async (req: Request, res: Response, next: NextFunction, d
 	const user: IUser = {
 		discordServerId: req.body.discordServerId,
 		discordUserId: req.body.discordUserId,
-		discordUsername: req.body.discordUsername
+		discordUsername: req.body.discordUsername,
 	};
 	const json = await dbClient.addUser(user);
 	return res.json(json);
 };
 
 export const addUsers = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
-	// console.log(req.body);
-	dbClient.addUsers();
-	const json: ICustomJsonResponse = {
-		message: "aici a trebui sa primesc o lista de useri, s-o iterez si sa adaug useri in baza de date",
-		statusCode: 200,
-		status: "sucess"
-	};
+	const json = await dbClient.addUsers(req.body.users);
 	return res.json(json);
 };
 

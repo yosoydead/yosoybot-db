@@ -12,7 +12,6 @@ export interface IUser {
   discordServerId: string;
   discordUserId: string;
   discordUsername: string;
-  rublerts?: number;
 }
 export interface ICommentMongoose extends Document {
   votes: number;
@@ -55,6 +54,8 @@ export interface IDbCommunication {
   getUserData(discordUserId: string): Promise<ICustomJsonResponse>;
   getAllUsers(): Promise<ICustomJsonResponse>;
   addUser(user: IUser): Promise<ICustomJsonResponse>;
-  addUsers(): any;
+  //din varii motive, nu mergea sa folosesc IUser pentru ca modelul de mongoose are o referinta la ICommentMongoose
+    //si avea tot felul de erori. cu IUserMongoose nu se mai plange
+  addUsers(users: IUserMongoose[]): Promise<ICustomJsonResponse>;
   rewardUser(): any;
 }

@@ -121,12 +121,19 @@ export default class DbClient implements IDbCommunication {
 				return this.createResponseObject(`User-ul cu numele ${user.discordUsername} a fost adaugat cu succes.`, 200, "sucess");
 			})
 			.catch((err: any) => {
-				return this.createResponseObject("Ceva nu e in regula. Nu am putut adauga mesajul. A se verifica canalul de loguri.", 500, "error");
+				return this.createResponseObject("Ceva nu e in regula. Nu am putut adauga user-ul. A se verifica canalul de loguri.", 500, "error");
 			});
 	}
 
-	addUsers() {
+	addUsers(users: IUserMongoose[]): Promise<ICustomJsonResponse> {
 		console.log("adaug multi useri");
+		return this.UsersModel.insertMany(users)
+			.then((result) => {
+				return this.createResponseObject(`Am adaugat lista cu useri in baza de date pe modul ${this.appMode}`, 200, "sucess");
+			})
+			.catch((err: any) => {
+				return this.createResponseObject("Ceva nu e in regula. Nu am putut adauga userii. A se verifica canalul de loguri.", 500, "error");
+			});
 	}
 
 	rewardUser() {
