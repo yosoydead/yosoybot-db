@@ -53,7 +53,7 @@ export interface IDbCommunication {
 
   // users related stuff
   getUserData(discordUserId: string): Promise<ICustomJsonResponse>;
-  getAllUsers(): any;
+  getAllUsers(): Promise<ICustomJsonResponse>;
   addUser(): any;
   addUsers(): any;
   rewardUser(): any;

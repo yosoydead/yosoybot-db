@@ -7,13 +7,7 @@ export const getUser = async (req: Request, res: Response, next: NextFunction, d
 };
 
 export const getUsers = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
-	dbClient.getAllUsers();
-
-	const json: ICustomJsonResponse = {
-		message: "de aici ar trebui sa pot returna intreaga lista de useri din baza de date",
-		statusCode: 200,
-		status: "sucess"
-	};
+	const json = await dbClient.getAllUsers();
 	return res.json(json);
 };
 

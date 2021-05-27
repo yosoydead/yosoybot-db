@@ -57,8 +57,14 @@ export default class DbClient<U extends Document, C extends Document> implements
   	};
   	return Promise.resolve(dummyRes);
   }
-  getAllUsers() {
+  getAllUsers(): Promise<ICustomJsonResponse> {
   	console.log(`DummyClient console logging mode: ${this.appMode} getAllUsers()`);
+    const dummyRes: ICustomJsonResponse = {
+  		message: "dau toti userii din dummy",
+  		status: "sucess",
+  		statusCode: 200
+  	};
+  	return Promise.resolve(dummyRes);
   }
   addUser() {
   	console.log(`DummyClient console logging mode: ${this.appMode} addUser()`);

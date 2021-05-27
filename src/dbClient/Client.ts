@@ -72,7 +72,7 @@ export default class DbClient implements IDbCommunication {
 				return this.createResponseObject(`"${quote.content}" de ${user[0].discordUsername}`, 200, "sucess");
 			})
 			.catch((err: any) => {
-				return this.createResponseObject("Nu am putut descarca un quote? Vezi logurile pe canal", 500, "error");
+				return this.createResponseObject("Nu am putut descarca un quote? Vezi logurile pe canal.", 500, "error");
 			});
 	}
 
@@ -83,7 +83,7 @@ export default class DbClient implements IDbCommunication {
 				return this.createResponseObject(`Aici e lista cu toate comentariile pe care le am din $${this.appMode}`, 200, "sucess", comments);
 			})
 			.catch((err: any) => {
-				return this.createResponseObject("Nu am putut descarca toate quotes? Vezi logurile pe canal", 500, "error");
+				return this.createResponseObject("Nu am putut descarca toate quotes? Vezi logurile pe canal.", 500, "error");
 			});
 	}
 
@@ -99,12 +99,19 @@ export default class DbClient implements IDbCommunication {
 				return this.createResponseObject(`Astea sunt datele despre user-ul cu id: ${discordUserId}`, 200, "sucess", userResult);
 			})
 			.catch((err: any) => {
-				return this.createResponseObject("Nu am putut descarca toate quotes? Vezi logurile pe canal", 500, "error");
+				return this.createResponseObject("Nu am putut descarca detalii despre un user. Vezi logurile pe canal.", 500, "error");
 			});
 	}
 
-	getAllUsers() {
+	getAllUsers(): Promise<ICustomJsonResponse> {
 		console.log("date despre toti userii");
+		return this.UsersModel.find({})
+			.then((usersResult: IUser[]) => {
+				return this.createResponseObject(`Asta ar trebui sa fie lista cu toti userii din ${this.appMode}. Sunt ${usersResult.length} la numar.`, 200, "sucess", usersResult);
+			})
+			.catch((err: any) => {
+				return this.createResponseObject("Nu am putut descarca toate quotes? Vezi logurile pe canal", 500, "error");
+			});
 	}
 
 	addUser() {
