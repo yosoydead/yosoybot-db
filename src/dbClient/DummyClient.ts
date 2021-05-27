@@ -1,4 +1,4 @@
-import { IDbCommunication, APP_ENV, ICustomJsonResponse, IComment } from "../types";
+import { IDbCommunication, APP_ENV, ICustomJsonResponse, IComment, IUser } from "../types";
 import { Model, Document } from "mongoose";
 
 export default class DbClient<U extends Document, C extends Document> implements IDbCommunication {
@@ -66,8 +66,14 @@ export default class DbClient<U extends Document, C extends Document> implements
   	};
   	return Promise.resolve(dummyRes);
   }
-  addUser() {
+  addUser(user: IUser): Promise<ICustomJsonResponse> {
   	console.log(`DummyClient console logging mode: ${this.appMode} addUser()`);
+    const dummyRes: ICustomJsonResponse = {
+  		message: "adaug un user din dummy",
+  		status: "sucess",
+  		statusCode: 200
+  	};
+  	return Promise.resolve(dummyRes);
   }
   addUsers() {
   	console.log(`DummyClient console logging mode: ${this.appMode} addUsers()`);

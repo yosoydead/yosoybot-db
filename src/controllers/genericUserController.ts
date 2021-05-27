@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { IDbCommunication, ICustomJsonResponse } from "../types";
+import { IDbCommunication, ICustomJsonResponse, IUser } from "../types";
 
 export const getUser = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
 	const json = await dbClient.getUserData(req.params.id);
@@ -12,14 +12,12 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction, 
 };
 
 export const addUser = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
-	// console.log(req.params.id);
-	dbClient.addUser();
-
-	const json: ICustomJsonResponse = {
-		message: "aici a trebui sa pot adauga un user in baza de date",
-		statusCode: 200,
-		status: "sucess"
+	const user: IUser = {
+		discordServerId: req.body.discordServerId,
+		discordUserId: req.body.discordUserId,
+		discordUsername: req.body.discordUsername
 	};
+	const json = await dbClient.addUser(user);
 	return res.json(json);
 };
 

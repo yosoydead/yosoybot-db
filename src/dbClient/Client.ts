@@ -27,7 +27,7 @@ export default class DbClient implements IDbCommunication {
 				return this.createResponseObject(`Comentariul lui ${user.discordUsername} a fost adaugat cu succes >:)`, 200, "sucess");
 			})
 			.catch((err) => {		
-				return this.createResponseObject("Ceva nu e in regula. A se verifica canalul de loguri.", 500, "error");
+				return this.createResponseObject("Ceva nu e in regula. Nu am putut adauga mesajul. A se verifica canalul de loguri.", 500, "error");
 			});
 	}
 
@@ -114,8 +114,15 @@ export default class DbClient implements IDbCommunication {
 			});
 	}
 
-	addUser() {
+	addUser(user: IUser): Promise<ICustomJsonResponse> {
 		console.log("adaug un user");
+		return this.UsersModel.create(user)
+			.then((user) => {
+				return this.createResponseObject(`User-ul cu numele ${user.discordUsername} a fost adaugat cu succes.`, 200, "sucess");
+			})
+			.catch((err: any) => {
+				return this.createResponseObject("Ceva nu e in regula. Nu am putut adauga mesajul. A se verifica canalul de loguri.", 500, "error");
+			});
 	}
 
 	addUsers() {

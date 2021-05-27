@@ -9,7 +9,7 @@ const routesConfig: ICustomRoute[] = [
 	{ action: "get", url: "/test/users", routeHandler: getUsers },
 
 	//post routes
-	{ action: "post", url: "/test/user/add/:id", routeHandler: addUser },
+	{ action: "post", url: "/test/user/add", routeHandler: addUser },
 	{ action: "post", url: "/test/users", routeHandler: addUsers },
 
 	//put routes

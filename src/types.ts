@@ -12,7 +12,7 @@ export interface IUser {
   discordServerId: string;
   discordUserId: string;
   discordUsername: string;
-  rublerts: number;
+  rublerts?: number;
 }
 export interface ICommentMongoose extends Document {
   votes: number;
@@ -54,7 +54,7 @@ export interface IDbCommunication {
   // users related stuff
   getUserData(discordUserId: string): Promise<ICustomJsonResponse>;
   getAllUsers(): Promise<ICustomJsonResponse>;
-  addUser(): any;
+  addUser(user: IUser): Promise<ICustomJsonResponse>;
   addUsers(): any;
   rewardUser(): any;
 }
