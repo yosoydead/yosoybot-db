@@ -1,5 +1,5 @@
 import { IDbCommunication, ICustomJsonResponse, APP_ENV, IUserMongoose, IComment, ICommentMongoose, IUser } from "../types";
-import { Model, Document } from "mongoose";
+import { Model } from "mongoose";
 import { RESPONSE_TYPE } from "../responseType";
 
 export default class DbClient implements IDbCommunication {
@@ -36,7 +36,6 @@ export default class DbClient implements IDbCommunication {
 		console.log("adaug multe comentarii", ...comments);
 		return this.CommentsModel.insertMany(comments)
 			.then((commentsRequest): Promise<ICustomJsonResponse> => {
-				// console.log("succes", commentsRequest);
 				return this.UsersModel.find({})
 					.then((usersRequest: IUserMongoose[]) => {
 						const newUsersList = [...usersRequest];
@@ -62,21 +61,19 @@ export default class DbClient implements IDbCommunication {
 
 	getRandomComment() {
 		console.log("trag un comment random");
-		let quote: any;
+		let quote: IComment;
 		return this.CommentsModel.find({})
-			.then((result: any) => {
+			.then((result: IComment[]) => {
 				const index = Math.floor(Math.random() * result.length);
 				quote = result[index];
 
 				return this.UsersModel.find({ discordUserId: quote.author});
 			})
-			.then((user: any) => {
-				console.log(user);
-        
+			.then((user: IUser[]) => {
 				return this.createResponseObject(`"${quote.content}" de ${user[0].discordUsername}`, 200, "sucess");
 			})
 			.catch((err: any) => {
-  			return this.createResponseObject("Something went wrong", 500, "error");
+				return this.createResponseObject("Nu am putut descarca un quote? Vezi logurile pe canal", 500, "error");
 			});
 	}
 

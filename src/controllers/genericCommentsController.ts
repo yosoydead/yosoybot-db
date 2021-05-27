@@ -2,12 +2,7 @@ import { Request, Response, NextFunction} from "express";
 import { ICustomJsonResponse, IDbCommunication } from "../types";
 
 export const getComment = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
-	dbClient.getRandomComment();
-	const json: ICustomJsonResponse = {
-		message: "de aici ar trebui sa pot returna detalii despre un singur comment cu id din param",
-		statusCode: 200,
-		status: "sucess"
-	};
+	const json = await dbClient.getRandomComment();
 	return res.json(json);
 };
 
