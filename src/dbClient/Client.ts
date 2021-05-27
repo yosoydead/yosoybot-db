@@ -1,7 +1,6 @@
 import { IDbCommunication, ICustomJsonResponse, APP_ENV, IUserMongoose, IComment, ICommentMongoose, IUser } from "../types";
 import { Model } from "mongoose";
 import { RESPONSE_TYPE } from "../responseType";
-
 export default class DbClient implements IDbCommunication {
   private UsersModel: Model<IUserMongoose>;
   private CommentsModel: Model<ICommentMongoose>;
@@ -89,8 +88,19 @@ export default class DbClient implements IDbCommunication {
 	}
 
 	// users stuff
-	getUserData() {
+	getUserData(discordUserId: string): Promise<ICustomJsonResponse> {
 		console.log("date despre un user");
+		return this.UsersModel.find({ discordUserId: discordUserId})
+			.then((userResult: IUser[]) => {
+				if (userResult.length === 0) {
+					return this.createResponseObject(`Nu am gasit niciun user care sa aiba id-ul: ${discordUserId}`, 200, "sucess");
+				}
+
+				return this.createResponseObject(`Astea sunt datele despre user-ul cu id: ${discordUserId}`, 200, "sucess", userResult);
+			})
+			.catch((err: any) => {
+				return this.createResponseObject("Nu am putut descarca toate quotes? Vezi logurile pe canal", 500, "error");
+			});
 	}
 
 	getAllUsers() {

@@ -52,7 +52,7 @@ export interface IDbCommunication {
   getComments(): Promise<ICustomJsonResponse>;
 
   // users related stuff
-  getUserData(): any;
+  getUserData(discordUserId: string): Promise<ICustomJsonResponse>;
   getAllUsers(): any;
   addUser(): any;
   addUsers(): any;

@@ -2,13 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { IDbCommunication, ICustomJsonResponse } from "../types";
 
 export const getUser = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
-	dbClient.getUserData();
-
-	const json: ICustomJsonResponse = {
-		message: "de aici ar trebui sa pot returna detalii despre un singur user cu id din param",
-		statusCode: 200,
-		status: "sucess"
-	};
+	const json = await dbClient.getUserData(req.params.id);
 	return res.json(json);
 };
 
