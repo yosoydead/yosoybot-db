@@ -2,18 +2,18 @@ import { RESPONSE_TYPE } from "./responseType";
 import { Request, Response, NextFunction} from "express";
 import { Document } from "mongoose";
 
-export interface IComment extends Document {
+export interface ICommentMongoose extends Document {
   votes: number;
   content: string;
   author: string;
 }
 
-export interface IUser extends Document {
+export interface IUserMongoose extends Document {
   discordServerId: string;
   discordUserId: string;
   discordUsername: string;
   rublerts: number;
-  comments: [IComment["_id"]];
+  comments: [ICommentMongoose["_id"]];
 }
 
 export interface ICustomJsonResponse {
@@ -33,7 +33,7 @@ export interface ICustomRoute {
 export interface IDbCommunication {
   appMode: APP_ENV;
   // comments related stuff
-  addComment(content: string, authorID: string): any;
+  addComment(content: string, authorID: string): Promise<ICustomJsonResponse>;
   addComments(): any;
   getRandomComment(): any;
   getComments(): any;

@@ -23,12 +23,13 @@ export const getComments = async (req: Request, res: Response, next: NextFunctio
 
 export const addComment = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
 	// console.log(req.params.id);
-	dbClient.addComment("a", "b");
-	const json: ICustomJsonResponse = {
-		message: "aici a trebui sa pot adauga un comment in baza de date",
-		statusCode: 200,
-		status: "sucess" 
-	};
+	// dbClient.addComment("a", "b");
+	// const json: ICustomJsonResponse = {
+	// 	message: "aici a trebui sa pot adauga un comment in baza de date",
+	// 	statusCode: 200,
+	// 	status: "sucess" 
+	// };
+	const json = await dbClient.addComment(req.body.content, req.body.author);
 	return res.json(json);
 };
 
