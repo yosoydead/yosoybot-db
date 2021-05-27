@@ -1,13 +1,5 @@
-import { model, Schema, Model, Document } from "mongoose";
-import { IComment} from "./comment";
-
-export interface IUserGoku extends Document {
-  discordServerId: string,
-  discordUserId: string,
-  discordUsername: string
-  rublerts: number,
-  comments: [IComment["_id"]]
-}
+import { model, Schema, Model } from "mongoose";
+import { IUser } from "../../types";
 
 const UserSchema: Schema = new Schema({
 	discordServerId: { type: String },
@@ -22,4 +14,4 @@ const UserSchema: Schema = new Schema({
 	]
 }, { timestamps: true });
 
-export const GokuUser: Model<IUserGoku> = model("userGoku", UserSchema);
+export const GokuUser: Model<IUser> = model("userGoku", UserSchema);

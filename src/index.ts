@@ -76,6 +76,23 @@ const prodRoutes = [gokuComment, gokuUserRouter];
 			return next(new ErrorHandler("nu ar trebui sa fac post aici"));
 		});
 
+		//aici intra doar daca nu se poate gasi nicio ruta definita pt PATCH
+		app.patch("*", (req: Request, res: Response, next: NextFunction) => {
+			// let err = new handleError.ErrorHandler(500, `Cannot post on this route: http://${req.get("host")}${req.url}`);
+			return next(new ErrorHandler("nu ar trebui sa fac patch aici"));
+		});
+
+		//aici intra doar daca nu se poate gasi nicio ruta definita pt PUT
+		app.put("*", (req: Request, res: Response, next: NextFunction) => {
+			// let err = new handleError.ErrorHandler(500, `Cannot post on this route: http://${req.get("host")}${req.url}`);
+			return next(new ErrorHandler("nu ar trebui sa fac put aici"));
+		});
+
+		//aici intra doar daca nu se poate gasi nicio ruta definita pt DELETE
+		app.delete("*", (req: Request, res: Response, next: NextFunction) => {
+			// let err = new handleError.ErrorHandler(500, `Cannot post on this route: http://${req.get("host")}${req.url}`);
+			return next(new ErrorHandler("nu ar trebui sa fac delete aici"));
+		});
 
 		//aparent, in express, semnatura pentru un error handler trebuie sa aiba 4 argumente neaparat
 		app.use((err: ErrorHandler, req: Request, res: Response, next: NextFunction) => {

@@ -1,14 +1,16 @@
-import { IDbCommunication, ICustomJsonResponse } from "../types";
+import { IDbCommunication, ICustomJsonResponse, APP_ENV } from "../types";
 import { Model, Document } from "mongoose";
 import { RESPONSE_TYPE } from "../responseType";
 
 export default class DbClient<U extends Document, C extends Document> implements IDbCommunication {
   private UsersModel: Model<U>;
   private CommentsModel: Model<C>;
+	appMode: APP_ENV;
 
-  constructor(baseUrl: string, userModel: Model<U>, commentsModel: Model<C>) {
+  constructor(mode: APP_ENV, userModel: Model<U>, commentsModel: Model<C>) {
 		this.UsersModel = userModel;
 		this.CommentsModel = commentsModel;
+		this.appMode = mode;
   }
   private createResponseObject(message: string, statusCode: number, status: RESPONSE_TYPE): ICustomJsonResponse {
 		return { message, statusCode, status };

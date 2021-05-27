@@ -1,5 +1,5 @@
 import { Router  } from "express";
-import { addComment, addComments, getComment, getComments } from "../../controllers/testing/commentsController";
+import { getComment, getComments, addComment, addComments } from "../../controllers/genericCommentsController";
 import { ICustomRoute } from "../../types";
 import { routeIterator } from "../../utils/routesIterator";
 

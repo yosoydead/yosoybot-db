@@ -1,5 +1,21 @@
 import { RESPONSE_TYPE } from "./responseType";
 import { Request, Response, NextFunction} from "express";
+import { Document } from "mongoose";
+
+export interface IComment extends Document {
+  votes: number;
+  content: string;
+  author: string;
+}
+
+export interface IUser extends Document {
+  discordServerId: string;
+  discordUserId: string;
+  discordUsername: string;
+  rublerts: number;
+  comments: [IComment["_id"]];
+}
+
 export interface ICustomJsonResponse {
   message: string,
   statusCode: number,
@@ -15,6 +31,7 @@ export interface ICustomRoute {
 }
 
 export interface IDbCommunication {
+  appMode: APP_ENV;
   // comments related stuff
   addComment(content: string, authorID: string): any;
   addComments(): any;

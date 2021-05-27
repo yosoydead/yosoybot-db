@@ -1,10 +1,5 @@
-import { model, Schema, Model, Document } from "mongoose";
-
-export interface IComment extends Document {
-  votes: number,
-  content: string,
-  author: string
-}
+import { model, Schema, Model } from "mongoose";
+import { IComment } from "../../types";
 
 const CommentSchema = new Schema({
 	votes: { type: Number, default: 1 },

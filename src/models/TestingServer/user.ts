@@ -1,13 +1,5 @@
-import { model, Schema, Model, Document } from "mongoose";
-import { IComment } from "./comment";
-
-export interface IUser extends Document {
-  discordServerId: string,
-  discordUserId: string,
-  discordUsername: string
-  rublerts: number,
-  comments: [IComment["_id"]]
-}
+import { model, Schema, Model } from "mongoose";
+import { IUser } from "../../types";
 
 const UserSchema: Schema = new Schema({
 	discordServerId: { type: String },
