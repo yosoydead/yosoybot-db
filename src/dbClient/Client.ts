@@ -12,8 +12,8 @@ export default class DbClient implements IDbCommunication {
 		this.CommentsModel = commentsModel;
 		this.appMode = mode;
 	}
-	private createResponseObject(message: string, statusCode: number, status: RESPONSE_TYPE): ICustomJsonResponse {
-		return { message, statusCode, status };
+	private createResponseObject(message: string, statusCode: number, status: RESPONSE_TYPE, arrayOfStuff: any = []): ICustomJsonResponse {
+		return { message, statusCode, status, arrayOfStuff };
 	}
 
 	// comments stuff
@@ -59,7 +59,7 @@ export default class DbClient implements IDbCommunication {
 			});
 	}
 
-	getRandomComment() {
+	getRandomComment(): Promise<ICustomJsonResponse> {
 		console.log("trag un comment random");
 		let quote: IComment;
 		return this.CommentsModel.find({})
@@ -77,8 +77,15 @@ export default class DbClient implements IDbCommunication {
 			});
 	}
 
-	getComments() {
+	getComments(): Promise<ICustomJsonResponse> {
 		console.log("trag toate comentariile");
+		return this.CommentsModel.find({})
+			.then((comments: ICommentMongoose[]) => {
+				return this.createResponseObject(`Aici e lista cu toate comentariile pe care le am din $${this.appMode}`, 200, "sucess", comments);
+			})
+			.catch((err: any) => {
+				return this.createResponseObject("Nu am putut descarca toate quotes? Vezi logurile pe canal", 500, "error");
+			});
 	}
 
 	// users stuff

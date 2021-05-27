@@ -29,9 +29,10 @@ export interface IUserMongoose extends Document {
 }
 
 export interface ICustomJsonResponse {
-  message: string,
-  statusCode: number,
-  status: RESPONSE_TYPE
+  message: string;
+  statusCode: number;
+  status: RESPONSE_TYPE;
+  arrayOfStuff?: any;
 }
 
 export type API_OPERATIONS = "get" | "post" | "put" | "patch" | "delete";
@@ -47,8 +48,8 @@ export interface IDbCommunication {
   // comments related stuff
   addComment(content: string, authorID: string): Promise<ICustomJsonResponse>;
   addComments(comments: IComment[]): Promise<ICustomJsonResponse>;
-  getRandomComment(): any;
-  getComments(): any;
+  getRandomComment(): Promise<ICustomJsonResponse>;
+  getComments(): Promise<ICustomJsonResponse>;
 
   // users related stuff
   getUserData(): any;

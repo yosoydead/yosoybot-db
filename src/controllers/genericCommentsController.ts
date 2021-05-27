@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction} from "express";
-import { ICustomJsonResponse, IDbCommunication } from "../types";
+import { IDbCommunication } from "../types";
 
 export const getComment = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
 	const json = await dbClient.getRandomComment();
@@ -7,12 +7,7 @@ export const getComment = async (req: Request, res: Response, next: NextFunction
 };
 
 export const getComments = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
-	dbClient.getComments();
-	const json: ICustomJsonResponse = {
-		message: "de aici ar trebui sa pot returna intreaga lista de commenturi din baza de date",
-		statusCode: 200,
-		status:	"sucess"
-	};
+	const json = await dbClient.getComments();
 	return res.json(json);
 };
 

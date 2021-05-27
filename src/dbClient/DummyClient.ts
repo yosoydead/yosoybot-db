@@ -21,21 +21,32 @@ export default class DbClient<U extends Document, C extends Document> implements
   	console.log(`DummyClient console logging mode: ${this.appMode} addComment()`);
   	return Promise.resolve(dummyRes);
   }
-  addComments(comments: IComment[]) {
-  	console.log(`DummyClient console logging mode: ${this.appMode} addComments()`);
+  addComments(comments: IComment[]): Promise<ICustomJsonResponse> {
+    console.log(`DummyClient console logging mode: ${this.appMode} addComments()`, comments);
     const dummyRes: ICustomJsonResponse = {
   		message: "adaugat comments din dummy",
   		status: "sucess",
   		statusCode: 200
   	};
-  	console.log(`DummyClient console logging mode: ${this.appMode} addComments()`, comments);
   	return Promise.resolve(dummyRes);
   }
-  getRandomComment() {
+  getRandomComment(): Promise<ICustomJsonResponse> {
   	console.log(`DummyClient console logging mode: ${this.appMode} getRandomComment()`);
+    const dummyRes: ICustomJsonResponse = {
+  		message: "dau un random quote din dummy",
+  		status: "sucess",
+  		statusCode: 200
+  	};
+  	return Promise.resolve(dummyRes);
   }
-  getComments() {
+  getComments(): Promise<ICustomJsonResponse> {
   	console.log(`DummyClient console logging mode: ${this.appMode} getComments()`);
+    const dummyRes: ICustomJsonResponse = {
+  		message: "dau o lista de quotes din dummy",
+  		status: "sucess",
+  		statusCode: 200
+  	};
+  	return Promise.resolve(dummyRes);
   }
   getUserData() {
   	console.log(`DummyClient console logging mode: ${this.appMode} getUserData()`);
