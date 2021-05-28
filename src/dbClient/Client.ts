@@ -145,4 +145,16 @@ export default class DbClient implements IDbCommunication {
 				return this.createResponseObject(`Ceva nu e in regula. Nu am putut adauga bani pt user-ul cu id ${data.author}. A se verifica canalul de loguri.`, 500, "error");
 			});
 	}
+
+	rewardUsers(data: IUserReward[]): Promise<ICustomJsonResponse> {
+		return Promise.all(data.map(async (d) => {
+			await this.UsersModel.findOneAndUpdate({ discordUserId: d.author }, { $inc: { "rublerts": d.howMuch }});
+		}))
+			.then(() => {
+				return this.createResponseObject(`Am adaugat bani listei de useri in baza de date pe modul ${this.appMode}.`, 200, "sucess");
+			})
+			.catch((err: any) => {
+				return this.createResponseObject("Ceva nu e in regula. Nu am putut adauga bani listei de useri. A se verifica canalul de loguri.", 500, "error");
+			});
+	}
 }

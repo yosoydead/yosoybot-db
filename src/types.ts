@@ -63,4 +63,5 @@ export interface IDbCommunication {
     //si avea tot felul de erori. cu IUserMongoose nu se mai plange
   addUsers(users: IUserMongoose[]): Promise<ICustomJsonResponse>;
   rewardUser(data: IUserReward): Promise<ICustomJsonResponse>;
+  rewardUsers(data: IUserReward[]): Promise<ICustomJsonResponse>;
 }

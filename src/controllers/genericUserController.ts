@@ -30,3 +30,8 @@ export const addMoney = async (req: Request, res: Response, next: NextFunction, 
 	const json = await dbClient.rewardUser({ author: req.body.author, howMuch: req.body.howMuch });
 	return res.json(json);
 };
+
+export const addMoneyToMultipleUsers = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
+	const json = await dbClient.rewardUsers(req.body.rewardsList);
+	return res.json(json);
+};

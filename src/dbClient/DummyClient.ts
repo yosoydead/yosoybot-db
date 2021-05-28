@@ -93,4 +93,13 @@ export default class DbClient<U extends Document, C extends Document> implements
   	};
   	return Promise.resolve(dummyRes);
   }
+	rewardUsers(data: IUserReward[]): Promise<ICustomJsonResponse> {
+		console.log(`DummyClient console logging mode: ${this.appMode} rewardUsers()`, data);
+		const dummyRes: ICustomJsonResponse = {
+  		message: "adaug bani multor useri din dummy",
+  		status: "sucess",
+  		statusCode: 200
+  	};
+  	return Promise.resolve(dummyRes);
+	}
 }
