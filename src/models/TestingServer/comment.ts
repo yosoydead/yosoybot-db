@@ -1,5 +1,5 @@
 import { model, Schema, Model } from "mongoose";
-import { IComment } from "../../types";
+import { ICommentMongoose } from "../../types";
 
 const CommentSchema = new Schema({
 	votes: { type: Number, default: 1 },
@@ -11,4 +11,4 @@ const CommentSchema = new Schema({
 	}
 });
 
-export const TestComment: Model<IComment> = model("testComment", CommentSchema);
+export const TestComment: Model<ICommentMongoose> = model("testComment", CommentSchema);

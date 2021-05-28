@@ -1,5 +1,5 @@
 import { model, Schema, Model } from "mongoose";
-import { IUser } from "../../types";
+import { IUserMongoose } from "../../types";
 
 const UserSchema: Schema = new Schema({
 	discordServerId: { type: String },
@@ -14,4 +14,4 @@ const UserSchema: Schema = new Schema({
 	]
 }, { timestamps: true });
 
-export const TestUser: Model<IUser> = model("testUser", UserSchema);
+export const TestUser: Model<IUserMongoose> = model("testUser", UserSchema);

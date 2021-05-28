@@ -44,7 +44,8 @@ export const addComment = async (req: Request, res: Response, next: NextFunction
 };
 
 export const addComments = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
-	dbClient.addComments();
+	// dbClient.addComments();
+	// console.log(req.body);
 	const json: ICustomJsonResponse = {
 		message: "aici a trebui sa primesc o lista de commenturi, s-o iterez si sa adaug useri in baza de date",
 		statusCode: 200,

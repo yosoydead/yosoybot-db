@@ -2,24 +2,41 @@ import { RESPONSE_TYPE } from "./responseType";
 import { Request, Response, NextFunction} from "express";
 import { Document } from "mongoose";
 
-export interface IComment extends Document {
+export interface IComment {
   votes: number;
   content: string;
   author: string;
 }
 
-export interface IUser extends Document {
+export interface IUser {
+  discordServerId: string;
+  discordUserId: string;
+  discordUsername: string;
+}
+
+export interface IUserReward {
+  author: string;
+  howMuch: number;
+}
+export interface ICommentMongoose extends Document {
+  votes: number;
+  content: string;
+  author: string;
+}
+
+export interface IUserMongoose extends Document {
   discordServerId: string;
   discordUserId: string;
   discordUsername: string;
   rublerts: number;
-  comments: [IComment["_id"]];
+  comments: [ICommentMongoose["_id"]];
 }
 
 export interface ICustomJsonResponse {
-  message: string,
-  statusCode: number,
-  status: RESPONSE_TYPE
+  message: string;
+  statusCode: number;
+  status: RESPONSE_TYPE;
+  arrayOfStuff?: any;
 }
 
 export type API_OPERATIONS = "get" | "post" | "put" | "patch" | "delete";
@@ -33,15 +50,18 @@ export interface ICustomRoute {
 export interface IDbCommunication {
   appMode: APP_ENV;
   // comments related stuff
-  addComment(content: string, authorID: string): any;
-  addComments(): any;
-  getRandomComment(): any;
-  getComments(): any;
+  addComment(content: string, authorID: string): Promise<ICustomJsonResponse>;
+  addComments(comments: IComment[]): Promise<ICustomJsonResponse>;
+  getRandomComment(): Promise<ICustomJsonResponse>;
+  getComments(): Promise<ICustomJsonResponse>;
 
   // users related stuff
-  getUserData(): any;
-  getAllUsers(): any;
-  addUser(): any;
-  addUsers(): any;
-  rewardUser(): any;
+  getUserData(discordUserId: string): Promise<ICustomJsonResponse>;
+  getAllUsers(): Promise<ICustomJsonResponse>;
+  addUser(user: IUser): Promise<ICustomJsonResponse>;
+  //din varii motive, nu mergea sa folosesc IUser pentru ca modelul de mongoose are o referinta la ICommentMongoose
+    //si avea tot felul de erori. cu IUserMongoose nu se mai plange
+  addUsers(users: IUserMongoose[]): Promise<ICustomJsonResponse>;
+  rewardUser(data: IUserReward): Promise<ICustomJsonResponse>;
+  rewardUsers(data: IUserReward[]): Promise<ICustomJsonResponse>;
 }

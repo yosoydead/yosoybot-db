@@ -1,4 +1,4 @@
-import { IDbCommunication, APP_ENV } from "../types";
+import { IDbCommunication, APP_ENV, ICustomJsonResponse, IComment, IUser, IUserReward } from "../types";
 import { Model, Document } from "mongoose";
 
 export default class DbClient<U extends Document, C extends Document> implements IDbCommunication {
@@ -8,35 +8,98 @@ export default class DbClient<U extends Document, C extends Document> implements
 
   constructor(mode: APP_ENV, userModel: Model<U>, commentsModel: Model<C>) {
   	this.UsersModel = userModel;
-    this.CommentsModel = commentsModel;
-    this.appMode = mode;
+  	this.CommentsModel = commentsModel;
+  	this.appMode = mode;
   }
   
-  addComment(content: string, authorID: string) {
-    console.log(`DummyClient console logging mode: ${this.appMode} addComment()`);
+  addComment(content: string, authorID: string): Promise<ICustomJsonResponse> {
+  	const dummyRes: ICustomJsonResponse = {
+  		message: "adaugat comment din dummy",
+  		status: "sucess",
+  		statusCode: 200
+  	};
+  	console.log(`DummyClient console logging mode: ${this.appMode} addComment()`);
+  	return Promise.resolve(dummyRes);
   }
-  addComments() {
-    console.log(`DummyClient console logging mode: ${this.appMode} addComments()`);
+  addComments(comments: IComment[]): Promise<ICustomJsonResponse> {
+    console.log(`DummyClient console logging mode: ${this.appMode} addComments()`, comments);
+    const dummyRes: ICustomJsonResponse = {
+  		message: "adaugat comments din dummy",
+  		status: "sucess",
+  		statusCode: 200
+  	};
+  	return Promise.resolve(dummyRes);
   }
-  getRandomComment() {
-    console.log(`DummyClient console logging mode: ${this.appMode} getRandomComment()`);
+  getRandomComment(): Promise<ICustomJsonResponse> {
+  	console.log(`DummyClient console logging mode: ${this.appMode} getRandomComment()`);
+    const dummyRes: ICustomJsonResponse = {
+  		message: "dau un random quote din dummy",
+  		status: "sucess",
+  		statusCode: 200
+  	};
+  	return Promise.resolve(dummyRes);
   }
-  getComments() {
-    console.log(`DummyClient console logging mode: ${this.appMode} getComments()`);
+  getComments(): Promise<ICustomJsonResponse> {
+  	console.log(`DummyClient console logging mode: ${this.appMode} getComments()`);
+    const dummyRes: ICustomJsonResponse = {
+  		message: "dau o lista de quotes din dummy",
+  		status: "sucess",
+  		statusCode: 200
+  	};
+  	return Promise.resolve(dummyRes);
   }
-  getUserData() {
-    console.log(`DummyClient console logging mode: ${this.appMode} getUserData()`);
+  getUserData(id: string): Promise<ICustomJsonResponse>{
+  	console.log(`DummyClient console logging mode: ${this.appMode} getUserData()`);
+    const dummyRes: ICustomJsonResponse = {
+  		message: "dau date despre user din dummy",
+  		status: "sucess",
+  		statusCode: 200
+  	};
+  	return Promise.resolve(dummyRes);
   }
-  getAllUsers() {
-    console.log(`DummyClient console logging mode: ${this.appMode} getAllUsers()`);
+  getAllUsers(): Promise<ICustomJsonResponse> {
+  	console.log(`DummyClient console logging mode: ${this.appMode} getAllUsers()`);
+    const dummyRes: ICustomJsonResponse = {
+  		message: "dau toti userii din dummy",
+  		status: "sucess",
+  		statusCode: 200
+  	};
+  	return Promise.resolve(dummyRes);
   }
-  addUser() {
-    console.log(`DummyClient console logging mode: ${this.appMode} addUser()`);
+  addUser(user: IUser): Promise<ICustomJsonResponse> {
+  	console.log(`DummyClient console logging mode: ${this.appMode} addUser()`);
+    const dummyRes: ICustomJsonResponse = {
+  		message: "adaug un user din dummy",
+  		status: "sucess",
+  		statusCode: 200
+  	};
+  	return Promise.resolve(dummyRes);
   }
-  addUsers() {
-    console.log(`DummyClient console logging mode: ${this.appMode} addUsers()`);
+  addUsers(users: IUser[]): Promise<ICustomJsonResponse> {
+  	console.log(`DummyClient console logging mode: ${this.appMode} addUsers()`);
+    const dummyRes: ICustomJsonResponse = {
+  		message: "adaug users din dummy",
+  		status: "sucess",
+  		statusCode: 200
+  	};
+  	return Promise.resolve(dummyRes);
   }
-  rewardUser() {
-    console.log(`DummyClient console logging mode: ${this.appMode} rewardUser()`);
+  rewardUser(data: IUserReward): Promise<ICustomJsonResponse> {
+  	console.log(`DummyClient console logging mode: ${this.appMode} rewardUser()`, data);
+		const dummyRes: ICustomJsonResponse = {
+  		message: "adaug bani unui user din dummy",
+  		status: "sucess",
+  		statusCode: 200
+  	};
+  	return Promise.resolve(dummyRes);
   }
+	rewardUsers(data: IUserReward[]): Promise<ICustomJsonResponse> {
+		console.log(`DummyClient console logging mode: ${this.appMode} rewardUsers()`, data);
+		const dummyRes: ICustomJsonResponse = {
+  		message: "adaug bani multor useri din dummy",
+  		status: "sucess",
+  		statusCode: 200
+  	};
+  	return Promise.resolve(dummyRes);
+	}
 }

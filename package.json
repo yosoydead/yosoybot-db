@@ -1,6 +1,6 @@
 {
   "name": "yosoybot-backend",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Incerc sa fac un backend pentru bot ca sa stochez ceva currency",
   "main": "index.js",
   "scripts": {
