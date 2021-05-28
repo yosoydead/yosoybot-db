@@ -27,13 +27,6 @@ export const addUsers = async (req: Request, res: Response, next: NextFunction, 
 };
 
 export const addMoney = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
-	// console.log(req.body);
-	dbClient.rewardUser();
-
-	const json: ICustomJsonResponse = {
-		message: "aici a trebui sa pot adauga un user in baza de date",
-		statusCode: 200,
-		status: "sucess"
-	};
+	const json = await dbClient.rewardUser({ author: req.body.author, howMuch: req.body.howMuch });
 	return res.json(json);
 };

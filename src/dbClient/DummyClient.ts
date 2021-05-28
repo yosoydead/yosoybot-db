@@ -1,4 +1,4 @@
-import { IDbCommunication, APP_ENV, ICustomJsonResponse, IComment, IUser } from "../types";
+import { IDbCommunication, APP_ENV, ICustomJsonResponse, IComment, IUser, IUserReward } from "../types";
 import { Model, Document } from "mongoose";
 
 export default class DbClient<U extends Document, C extends Document> implements IDbCommunication {
@@ -84,7 +84,13 @@ export default class DbClient<U extends Document, C extends Document> implements
   	};
   	return Promise.resolve(dummyRes);
   }
-  rewardUser() {
-  	console.log(`DummyClient console logging mode: ${this.appMode} rewardUser()`);
+  rewardUser(data: IUserReward): Promise<ICustomJsonResponse> {
+  	console.log(`DummyClient console logging mode: ${this.appMode} rewardUser()`, data);
+		const dummyRes: ICustomJsonResponse = {
+  		message: "adaug bani unui user din dummy",
+  		status: "sucess",
+  		statusCode: 200
+  	};
+  	return Promise.resolve(dummyRes);
   }
 }

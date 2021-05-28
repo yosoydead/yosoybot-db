@@ -1,4 +1,4 @@
-import { IDbCommunication, ICustomJsonResponse, APP_ENV, IUserMongoose, IComment, ICommentMongoose, IUser } from "../types";
+import { IDbCommunication, ICustomJsonResponse, APP_ENV, IUserMongoose, IComment, ICommentMongoose, IUser, IUserReward } from "../types";
 import { Model } from "mongoose";
 import { RESPONSE_TYPE } from "../responseType";
 export default class DbClient implements IDbCommunication {
@@ -136,7 +136,13 @@ export default class DbClient implements IDbCommunication {
 			});
 	}
 
-	rewardUser() {
-		console.log("dau rublerts unui user");
+	rewardUser(data: IUserReward): Promise<ICustomJsonResponse> {
+		return this.UsersModel.findOneAndUpdate({ discordUserId: data.author }, { $inc: { "rublerts": data.howMuch }})
+			.then(() => {
+				return this.createResponseObject(`Am adaugat bani user-ului cu id ${data.author} in baza de date pe modul ${this.appMode}.`, 200, "sucess");
+			})
+			.catch((err: any) => {
+				return this.createResponseObject(`Ceva nu e in regula. Nu am putut adauga bani pt user-ul cu id ${data.author}. A se verifica canalul de loguri.`, 500, "error");
+			});
 	}
 }
