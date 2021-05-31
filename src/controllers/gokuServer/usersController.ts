@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction} from "express";
-import { RESPONSE_TYPE } from "../../responseType";
 import { ICustomJsonResponse } from "../../types";
 import { GokuUser } from "../../models/GokuServer/user";
 

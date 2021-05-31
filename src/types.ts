@@ -1,6 +1,7 @@
-import { RESPONSE_TYPE } from "./responseType";
 import { Request, Response, NextFunction} from "express";
 import { Document } from "mongoose";
+
+export type RESPONSE_TYPE = "sucess" | "error";
 
 export interface IComment {
   votes: number;

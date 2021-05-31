@@ -1,6 +1,5 @@
-import { IDbCommunication, ICustomJsonResponse, APP_ENV, IUserMongoose, IComment, ICommentMongoose, IUser, IUserReward } from "../types";
+import { IDbCommunication, ICustomJsonResponse, APP_ENV, IUserMongoose, IComment, ICommentMongoose, IUser, IUserReward, RESPONSE_TYPE } from "../types";
 import { Model } from "mongoose";
-import { RESPONSE_TYPE } from "../responseType";
 export default class DbClient implements IDbCommunication {
   private UsersModel: Model<IUserMongoose>;
   private CommentsModel: Model<ICommentMongoose>;
