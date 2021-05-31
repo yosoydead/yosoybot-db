@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addComment, addComments, getComment, getComments } from "../../controllers/gokuServer/commentsController";
+import { addComment, addComments, getComment, getComments } from "../../controllers/genericCommentsController";
 import { ICustomRoute } from "../../types";
 import { routeIterator } from "../../utils/routesIterator";
 
