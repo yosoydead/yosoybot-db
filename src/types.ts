@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction} from "express";
 import { Document } from "mongoose";
 
-export type RESPONSE_TYPE = "sucess" | "error";
+export type RESPONSE_TYPE = "success" | "error";
 
 export interface IComment {
   votes: number;
