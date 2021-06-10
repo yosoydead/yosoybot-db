@@ -1,5 +1,5 @@
 import { Router  } from "express";
-import { addUser, addUsers, getUser, getUsers, addMoney } from "../../controllers/gokuServer/usersController";
+import { addUser, addUsers, getUser, getUsers, addMoney } from "../../controllers/genericUserController";
 import { ICustomRoute } from "../../types";
 import { routeIterator } from "../../utils/routesIterator";
 

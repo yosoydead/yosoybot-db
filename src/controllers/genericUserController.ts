@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { IDbCommunication, ICustomJsonResponse, IUser } from "../types";
+import { IDbCommunication, IUser } from "../types";
 
 export const getUser = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
 	const json = await dbClient.getUserData(req.params.id);
