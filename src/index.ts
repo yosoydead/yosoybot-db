@@ -48,7 +48,7 @@ const prodRoutes = [gokuComment, gokuUserRouter];
 		app.get("/", (req: Request, res: Response) => {
 			const json: ICustomJsonResponse = {
 				message: "salut. faci get request la home route",
-				status: "sucess",
+				status: "success",
 				statusCode: 200
 			};
 
@@ -58,7 +58,7 @@ const prodRoutes = [gokuComment, gokuUserRouter];
 		app.post("/", (req: Request, res: Response) => {
 			const json: ICustomJsonResponse = {
 				message: "salut. faci post request la home route. daca primesti asta din bot, inseamna ca totul e ok :)",
-				status: "sucess",
+				status: "success",
 				statusCode: 200
 			};
 

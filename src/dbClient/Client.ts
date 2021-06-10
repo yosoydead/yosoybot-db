@@ -23,7 +23,7 @@ export default class DbClient implements IDbCommunication {
 				return this.UsersModel.findOneAndUpdate({ discordUserId: authorID }, { $push: { comments: comment._id } });
 			})
 			.then((user: IUserMongoose) => {
-				return this.createResponseObject(`Comentariul lui ${user.discordUsername} a fost adaugat cu succes >:)`, 200, "sucess");
+				return this.createResponseObject(`Comentariul lui ${user.discordUsername} a fost adaugat cu succes >:)`, 200, "success");
 			})
 			.catch((err) => {		
 				return this.createResponseObject("Ceva nu e in regula. Nu am putut adauga mesajul. A se verifica canalul de loguri.", 500, "error");
@@ -48,7 +48,7 @@ export default class DbClient implements IDbCommunication {
 						}));
 					})
 					.then(() => {
-						return this.createResponseObject(`Am adaugat ${commentsRequest.length} comentarii cu succes >:)`, 200, "sucess");
+						return this.createResponseObject(`Am adaugat ${commentsRequest.length} comentarii cu succes >:)`, 200, "success");
 					});
 			})
 			.catch((err) => {
@@ -68,7 +68,7 @@ export default class DbClient implements IDbCommunication {
 				return this.UsersModel.find({ discordUserId: quote.author});
 			})
 			.then((user: IUser[]) => {
-				return this.createResponseObject(`"${quote.content}" de ${user[0].discordUsername}`, 200, "sucess");
+				return this.createResponseObject(`"${quote.content}" de ${user[0].discordUsername}`, 200, "success");
 			})
 			.catch((err: any) => {
 				return this.createResponseObject("Nu am putut descarca un quote? Vezi logurile pe canal.", 500, "error");
@@ -79,7 +79,7 @@ export default class DbClient implements IDbCommunication {
 		console.log("trag toate comentariile");
 		return this.CommentsModel.find({})
 			.then((comments: ICommentMongoose[]) => {
-				return this.createResponseObject(`Aici e lista cu toate comentariile pe care le am din $${this.appMode}`, 200, "sucess", comments);
+				return this.createResponseObject(`Aici e lista cu toate comentariile pe care le am din $${this.appMode}`, 200, "success", comments);
 			})
 			.catch((err: any) => {
 				return this.createResponseObject("Nu am putut descarca toate quotes? Vezi logurile pe canal.", 500, "error");
@@ -92,10 +92,10 @@ export default class DbClient implements IDbCommunication {
 		return this.UsersModel.find({ discordUserId: discordUserId})
 			.then((userResult: IUser[]) => {
 				if (userResult.length === 0) {
-					return this.createResponseObject(`Nu am gasit niciun user care sa aiba id-ul: ${discordUserId}`, 200, "sucess");
+					return this.createResponseObject(`Nu am gasit niciun user care sa aiba id-ul: ${discordUserId}`, 200, "success");
 				}
 
-				return this.createResponseObject(`Astea sunt datele despre user-ul cu id: ${discordUserId}`, 200, "sucess", userResult);
+				return this.createResponseObject(`Astea sunt datele despre user-ul cu id: ${discordUserId}`, 200, "success", userResult);
 			})
 			.catch((err: any) => {
 				return this.createResponseObject("Nu am putut descarca detalii despre un user. Vezi logurile pe canal.", 500, "error");
@@ -106,7 +106,7 @@ export default class DbClient implements IDbCommunication {
 		console.log("date despre toti userii");
 		return this.UsersModel.find({})
 			.then((usersResult: IUser[]) => {
-				return this.createResponseObject(`Asta ar trebui sa fie lista cu toti userii din ${this.appMode}. Sunt ${usersResult.length} la numar.`, 200, "sucess", usersResult);
+				return this.createResponseObject(`Asta ar trebui sa fie lista cu toti userii din ${this.appMode}. Sunt ${usersResult.length} la numar.`, 200, "success", usersResult);
 			})
 			.catch((err: any) => {
 				return this.createResponseObject("Nu am putut descarca toate quotes? Vezi logurile pe canal", 500, "error");
@@ -117,7 +117,7 @@ export default class DbClient implements IDbCommunication {
 		console.log("adaug un user");
 		return this.UsersModel.create(user)
 			.then((user) => {
-				return this.createResponseObject(`User-ul cu numele ${user.discordUsername} a fost adaugat cu succes.`, 200, "sucess");
+				return this.createResponseObject(`User-ul cu numele ${user.discordUsername} a fost adaugat cu succes.`, 200, "success");
 			})
 			.catch((err: any) => {
 				return this.createResponseObject("Ceva nu e in regula. Nu am putut adauga user-ul. A se verifica canalul de loguri.", 500, "error");
@@ -128,7 +128,7 @@ export default class DbClient implements IDbCommunication {
 		console.log("adaug multi useri");
 		return this.UsersModel.insertMany(users)
 			.then((result) => {
-				return this.createResponseObject(`Am adaugat lista cu useri in baza de date pe modul ${this.appMode}`, 200, "sucess");
+				return this.createResponseObject(`Am adaugat lista cu useri in baza de date pe modul ${this.appMode}`, 200, "success");
 			})
 			.catch((err: any) => {
 				return this.createResponseObject("Ceva nu e in regula. Nu am putut adauga userii. A se verifica canalul de loguri.", 500, "error");
@@ -138,7 +138,7 @@ export default class DbClient implements IDbCommunication {
 	rewardUser(data: IUserReward): Promise<ICustomJsonResponse> {
 		return this.UsersModel.findOneAndUpdate({ discordUserId: data.author }, { $inc: { "rublerts": data.howMuch }})
 			.then(() => {
-				return this.createResponseObject(`Am adaugat bani user-ului cu id ${data.author} in baza de date pe modul ${this.appMode}.`, 200, "sucess");
+				return this.createResponseObject(`Am adaugat bani user-ului cu id ${data.author} in baza de date pe modul ${this.appMode}.`, 200, "success");
 			})
 			.catch((err: any) => {
 				return this.createResponseObject(`Ceva nu e in regula. Nu am putut adauga bani pt user-ul cu id ${data.author}. A se verifica canalul de loguri.`, 500, "error");
@@ -150,7 +150,7 @@ export default class DbClient implements IDbCommunication {
 			await this.UsersModel.findOneAndUpdate({ discordUserId: d.author }, { $inc: { "rublerts": d.howMuch }});
 		}))
 			.then(() => {
-				return this.createResponseObject(`Am adaugat bani listei de useri in baza de date pe modul ${this.appMode}.`, 200, "sucess");
+				return this.createResponseObject(`Am adaugat bani listei de useri in baza de date pe modul ${this.appMode}.`, 200, "success");
 			})
 			.catch((err: any) => {
 				return this.createResponseObject("Ceva nu e in regula. Nu am putut adauga bani listei de useri. A se verifica canalul de loguri.", 500, "error");

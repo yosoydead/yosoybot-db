@@ -15,7 +15,7 @@ export default class DbClient<U extends Document, C extends Document> implements
   addComment(content: string, authorID: string): Promise<ICustomJsonResponse> {
   	const dummyRes: ICustomJsonResponse = {
   		message: "adaugat comment din dummy",
-  		status: "sucess",
+  		status: "success",
   		statusCode: 200
   	};
   	console.log(`DummyClient console logging mode: ${this.appMode} addComment()`);
@@ -25,7 +25,7 @@ export default class DbClient<U extends Document, C extends Document> implements
     console.log(`DummyClient console logging mode: ${this.appMode} addComments()`, comments);
     const dummyRes: ICustomJsonResponse = {
   		message: "adaugat comments din dummy",
-  		status: "sucess",
+  		status: "success",
   		statusCode: 200
   	};
   	return Promise.resolve(dummyRes);
@@ -34,7 +34,7 @@ export default class DbClient<U extends Document, C extends Document> implements
   	console.log(`DummyClient console logging mode: ${this.appMode} getRandomComment()`);
     const dummyRes: ICustomJsonResponse = {
   		message: "dau un random quote din dummy",
-  		status: "sucess",
+  		status: "success",
   		statusCode: 200
   	};
   	return Promise.resolve(dummyRes);
@@ -43,7 +43,7 @@ export default class DbClient<U extends Document, C extends Document> implements
   	console.log(`DummyClient console logging mode: ${this.appMode} getComments()`);
     const dummyRes: ICustomJsonResponse = {
   		message: "dau o lista de quotes din dummy",
-  		status: "sucess",
+  		status: "success",
   		statusCode: 200
   	};
   	return Promise.resolve(dummyRes);
@@ -52,7 +52,7 @@ export default class DbClient<U extends Document, C extends Document> implements
   	console.log(`DummyClient console logging mode: ${this.appMode} getUserData()`);
     const dummyRes: ICustomJsonResponse = {
   		message: "dau date despre user din dummy",
-  		status: "sucess",
+  		status: "success",
   		statusCode: 200
   	};
   	return Promise.resolve(dummyRes);
@@ -61,7 +61,7 @@ export default class DbClient<U extends Document, C extends Document> implements
   	console.log(`DummyClient console logging mode: ${this.appMode} getAllUsers()`);
     const dummyRes: ICustomJsonResponse = {
   		message: "dau toti userii din dummy",
-  		status: "sucess",
+  		status: "success",
   		statusCode: 200
   	};
   	return Promise.resolve(dummyRes);
@@ -70,7 +70,7 @@ export default class DbClient<U extends Document, C extends Document> implements
   	console.log(`DummyClient console logging mode: ${this.appMode} addUser()`);
     const dummyRes: ICustomJsonResponse = {
   		message: "adaug un user din dummy",
-  		status: "sucess",
+  		status: "success",
   		statusCode: 200
   	};
   	return Promise.resolve(dummyRes);
@@ -79,7 +79,7 @@ export default class DbClient<U extends Document, C extends Document> implements
   	console.log(`DummyClient console logging mode: ${this.appMode} addUsers()`);
     const dummyRes: ICustomJsonResponse = {
   		message: "adaug users din dummy",
-  		status: "sucess",
+  		status: "success",
   		statusCode: 200
   	};
   	return Promise.resolve(dummyRes);
@@ -88,7 +88,7 @@ export default class DbClient<U extends Document, C extends Document> implements
   	console.log(`DummyClient console logging mode: ${this.appMode} rewardUser()`, data);
 		const dummyRes: ICustomJsonResponse = {
   		message: "adaug bani unui user din dummy",
-  		status: "sucess",
+  		status: "success",
   		statusCode: 200
   	};
   	return Promise.resolve(dummyRes);
@@ -97,7 +97,7 @@ export default class DbClient<U extends Document, C extends Document> implements
 		console.log(`DummyClient console logging mode: ${this.appMode} rewardUsers()`, data);
 		const dummyRes: ICustomJsonResponse = {
   		message: "adaug bani multor useri din dummy",
-  		status: "sucess",
+  		status: "success",
   		statusCode: 200
   	};
   	return Promise.resolve(dummyRes);
