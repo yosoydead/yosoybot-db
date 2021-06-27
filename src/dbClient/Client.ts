@@ -1,19 +1,16 @@
-import { IDbCommunication, ICustomJsonResponse, APP_ENV, IUserMongoose, IComment, ICommentMongoose, IUser, IUserReward, RESPONSE_TYPE } from "../types";
+import { IDbCommunication, ICustomJsonResponse, APP_ENV, IUserMongoose, IComment, ICommentMongoose, IUser, IUserReward, RESPONSE_TYPE, IUserTransaction, IUserTransactionMongoose } from "../types";
 import { Model } from "mongoose";
 export default class DbClient implements IDbCommunication {
   private UsersModel: Model<IUserMongoose>;
   private CommentsModel: Model<ICommentMongoose>;
+	private TransactionsModel: Model<IUserTransactionMongoose>;
 	appMode: APP_ENV;
 
-	constructor(mode: APP_ENV, userModel: Model<IUserMongoose>, commentsModel: Model<ICommentMongoose>) {
+	constructor(mode: APP_ENV, userModel: Model<IUserMongoose>, commentsModel: Model<ICommentMongoose>, transactionsModel: Model<IUserTransactionMongoose>) {
 		this.UsersModel = userModel;
 		this.CommentsModel = commentsModel;
+		this.TransactionsModel = transactionsModel;
 		this.appMode = mode;
-	}
-	addTransaction() {
-		// throw new Error("Method not implemented.");
-		console.log("adaug o tranzactie");
-		return this.createResponseObject("adaug tranzactie", 200, "success");
 	}
 
 	private createResponseObject(message: string, statusCode: number, status: RESPONSE_TYPE, arrayOfStuff: any = []): ICustomJsonResponse {
@@ -160,6 +157,17 @@ export default class DbClient implements IDbCommunication {
 			})
 			.catch((err: any) => {
 				return this.createResponseObject("Ceva nu e in regula. Nu am putut adauga bani listei de useri. A se verifica canalul de loguri.", 500, "error");
+			});
+	}
+
+	addTransaction(transactions: IUserTransaction[]): Promise<ICustomJsonResponse> {
+		console.log("adaug o tranzactie");
+		return this.TransactionsModel.insertMany(transactions)
+			.then(() => {
+				return this.createResponseObject("Tranzactii adaugate cu success.", 200, "success");
+			})
+			.catch(err => {
+				return this.createResponseObject("Nu am reusit sa adaug tranzactiile din varii motive.", 500, "error");
 			});
 	}
 }

@@ -103,7 +103,12 @@ export default class DbClient<U extends Document, C extends Document> implements
   	return Promise.resolve(dummyRes);
 	}
 
-	addTransaction() {
-		return null;
+	addTransaction(): Promise<ICustomJsonResponse> {
+		const dummyRes: ICustomJsonResponse = {
+  		message: "adaug bani multor useri din dummy",
+  		status: "success",
+  		statusCode: 200
+  	};
+  	return Promise.resolve(dummyRes);
 	}
 }
