@@ -102,4 +102,8 @@ export default class DbClient<U extends Document, C extends Document> implements
   	};
   	return Promise.resolve(dummyRes);
 	}
+
+	addTransaction() {
+		return null;
+	}
 }

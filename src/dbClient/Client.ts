@@ -10,6 +10,12 @@ export default class DbClient implements IDbCommunication {
 		this.CommentsModel = commentsModel;
 		this.appMode = mode;
 	}
+	addTransaction() {
+		// throw new Error("Method not implemented.");
+		console.log("adaug o tranzactie");
+		return this.createResponseObject("adaug tranzactie", 200, "success");
+	}
+
 	private createResponseObject(message: string, statusCode: number, status: RESPONSE_TYPE, arrayOfStuff: any = []): ICustomJsonResponse {
 		return { message, statusCode, status, arrayOfStuff };
 	}

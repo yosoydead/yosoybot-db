@@ -19,10 +19,11 @@ DbFactory.createInstance(env);
 
 import testUserRouter from "./routes/testing/users";
 import testComment from "./routes/testing/comments";
+import testTransaction from "./routes/testing/transactions";
 import gokuUserRouter from "./routes/goku/users";
 import gokuComment from "./routes/goku/comments";
 
-const localRoutes = [testUserRouter, testComment];
+const localRoutes = [testUserRouter, testComment, testTransaction];
 const prodRoutes = [gokuComment, gokuUserRouter];
 
 (async () => {

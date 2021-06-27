@@ -19,6 +19,13 @@ export interface IUserReward {
   author: string;
   howMuch: number;
 }
+
+export interface IUserTransaction {
+  reason: string;
+  cost: number;
+  discordUserId: string;
+}
+
 export interface ICommentMongoose extends Document {
   votes: number;
   content: string;
@@ -31,6 +38,12 @@ export interface IUserMongoose extends Document {
   discordUsername: string;
   rublerts: number;
   comments: [ICommentMongoose["_id"]];
+}
+
+export interface IUserTransactionMongoose extends Document {
+  reason: string;
+  cost: number;
+  discordUserId: string;
 }
 
 export interface ICustomJsonResponse {
@@ -65,4 +78,6 @@ export interface IDbCommunication {
   addUsers(users: IUserMongoose[]): Promise<ICustomJsonResponse>;
   rewardUser(data: IUserReward): Promise<ICustomJsonResponse>;
   rewardUsers(data: IUserReward[]): Promise<ICustomJsonResponse>;
+
+  addTransaction(): any;
 }
