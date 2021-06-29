@@ -38,6 +38,7 @@ export interface IUserMongoose extends Document {
   discordUsername: string;
   rublerts: number;
   comments: [ICommentMongoose["_id"]];
+  transactions: [IUserTransactionMongoose["_id"]];
 }
 
 export interface IUserTransactionMongoose extends Document {

@@ -163,11 +163,26 @@ export default class DbClient implements IDbCommunication {
 	addTransaction(transactions: IUserTransaction[]): Promise<ICustomJsonResponse> {
 		console.log("adaug o tranzactie");
 		return this.TransactionsModel.insertMany(transactions)
-			.then(() => {
-				return this.createResponseObject("Tranzactii adaugate cu success.", 200, "success");
+			.then((transactionsRequest: IUserTransactionMongoose[]): Promise<ICustomJsonResponse> => {
+				return this.UsersModel.find({})
+					.then((usersRequest: IUserMongoose[]) => {
+						const newUsersList = [...usersRequest];
+						for(let i = 0; i < transactionsRequest.length; i++) {
+							const user = newUsersList.find(u => u.discordUserId === transactionsRequest[i].discordUserId);
+							// nu are cum sa nu gaseasca userul respectiv dar daca nu il pun nullable, ar da eroare la compilare
+							user?.transactions.push(transactionsRequest[i]._id);
+						}
+						return Promise.all(newUsersList.map(async (user) => {
+							await this.UsersModel.updateOne({ _id: user._id}, { $set: { transactions: user.transactions }});
+						}));
+					})
+					.then(() => {
+						return this.createResponseObject(`Am adaugat ${transactionsRequest.length} comentarii cu succes >:)`, 200, "success");
+					});
 			})
-			.catch(err => {
-				return this.createResponseObject("Nu am reusit sa adaug tranzactiile din varii motive.", 500, "error");
+			.catch((err) => {
+				console.log(err);
+				return this.createResponseObject("Ceva nu e in regula. A se verifica canalul de loguri.", 500, "error");
 			});
 	}
 }
