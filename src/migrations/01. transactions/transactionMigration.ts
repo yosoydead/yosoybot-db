@@ -9,7 +9,7 @@
 import { TestUser, GokuUser } from "../../models";
 import { APP_ENV } from "../../types";
 
-export const migrate = (appMode: APP_ENV, callback: () => any): void => {
+export const migrate = (appMode: APP_ENV | string | undefined, callback: () => any): void => {
 	if (appMode === "local") {
 		TestUser.updateMany({}, { $set: { transactions: [] }}, null, (err, success) => {
 			if (err) {
@@ -34,6 +34,8 @@ export const migrate = (appMode: APP_ENV, callback: () => any): void => {
 				callback();
 			}
 		});
+	} else {
+		console.log("APP mode undefined");
 	}
 };
 
