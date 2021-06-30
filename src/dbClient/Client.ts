@@ -171,14 +171,14 @@ export default class DbClient implements IDbCommunication {
 							const user = newUsersList.find(u => u.discordUserId === transactionsRequest[i].discordUserId);
 							// nu are cum sa nu gaseasca userul respectiv dar daca nu il pun nullable, ar da eroare la compilare
 							user?.transactions.push(transactionsRequest[i]._id);
-							user!.rublerts -= transactionsRequest[i].cost;
+							user!.rublerts += transactionsRequest[i].cost;
 						}
 						return Promise.all(newUsersList.map(async (user) => {
 							await this.UsersModel.updateOne({ _id: user._id}, { $set: { transactions: user.transactions, rublerts: user.rublerts }});
 						}));
 					})
 					.then(() => {
-						return this.createResponseObject(`Am adaugat ${transactionsRequest.length} comentarii cu succes >:)`, 200, "success");
+						return this.createResponseObject(`Am adaugat ${transactionsRequest.length} tranzactii cu succes >:)`, 200, "success");
 					});
 			})
 			.catch((err) => {
