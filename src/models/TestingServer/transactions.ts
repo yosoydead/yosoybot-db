@@ -4,7 +4,8 @@ import { IUserTransactionMongoose } from "../../types";
 const TransactionSchema = new Schema({
 	reason: { type: String, required: true },
 	cost: { type: Number, required: true },
-	discordUserId: { type: String, required: true }
+	discordUserId: { type: String, required: true },
+	status: { type: String, required: true }
 }, { timestamps: true });
 
 export const TestTransaction: Model<IUserTransactionMongoose> = model("testTransaction", TransactionSchema);
