@@ -73,6 +73,7 @@ export interface IDbCommunication {
   // users related stuff
   getUserData(discordUserId: string): Promise<ICustomJsonResponse>;
   getAllUsers(): Promise<ICustomJsonResponse>;
+  getUsersBank(): Promise<ICustomJsonResponse>;
   addUser(user: IUser): Promise<ICustomJsonResponse>;
   //din varii motive, nu mergea sa folosesc IUser pentru ca modelul de mongoose are o referinta la ICommentMongoose
     //si avea tot felul de erori. cu IUserMongoose nu se mai plange

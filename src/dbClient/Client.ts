@@ -105,6 +105,23 @@ export default class DbClient implements IDbCommunication {
 			});
 	}
 
+	getUsersBank(): Promise<ICustomJsonResponse> {
+		return this.UsersModel.find({})
+			.then((usersResult: IUserMongoose[]) => {
+				const usersBank = usersResult.map((u) => {
+					return {
+						discordUserId: u.discordUserId,
+						rublerts: u.rublerts
+					}
+				});
+
+				return this.createResponseObject(`Asta ar trebui sa fie lista cu toti userii si banii lor din ${this.appMode}. Sunt ${usersResult.length} la numar.`, 200, "success", usersBank);
+			})
+			.catch((err: any) => {
+				return this.createResponseObject("Nu am putut descarca useri + bani? Vezi logurile pe canal", 500, "error");
+			});
+	}
+
 	getAllUsers(): Promise<ICustomJsonResponse> {
 		console.log("date despre toti userii");
 		return this.UsersModel.find({})
@@ -112,7 +129,7 @@ export default class DbClient implements IDbCommunication {
 				return this.createResponseObject(`Asta ar trebui sa fie lista cu toti userii din ${this.appMode}. Sunt ${usersResult.length} la numar.`, 200, "success", usersResult);
 			})
 			.catch((err: any) => {
-				return this.createResponseObject("Nu am putut descarca toate quotes? Vezi logurile pe canal", 500, "error");
+				return this.createResponseObject("Nu am putut descarca datele despre useri? Vezi logurile pe canal", 500, "error");
 			});
 	}
 
