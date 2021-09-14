@@ -10,3 +10,8 @@ export const getUsersBank = async (req: Request, res: Response, next: NextFuncti
 	const json = await dbClient.getUsersBank();
 	return res.json(json);
 };
+
+export const getUserTransactions = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
+	const json = await dbClient.getUserTransactions(req.params.id);
+	return res.json(json);
+};

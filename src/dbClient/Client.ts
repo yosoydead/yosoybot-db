@@ -203,4 +203,15 @@ export default class DbClient implements IDbCommunication {
 				return this.createResponseObject("Ceva nu e in regula. A se verifica canalul de loguri.", 500, "error");
 			});
 	}
+
+	getUserTransactions(userId: string, numberOfTransactions?: number): Promise<ICustomJsonResponse> {
+		return this.TransactionsModel.find({ discordUserId: userId })
+			.then((transactions: IUserTransactionMongoose[]) => {
+				const limitedTransactions = transactions.slice(-10);
+				return this.createResponseObject(`Tranzactiile userului cu id ${userId} au fost gasite = ${limitedTransactions.length}.`, 200, "success", limitedTransactions);
+			})
+			.catch(() => {
+				return this.createResponseObject("Ceva nu e in regula. Nu pot descarca tranzactiile pt un user.", 500, "error");
+			});
+	}
 }

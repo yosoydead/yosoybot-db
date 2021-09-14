@@ -11,6 +11,9 @@ export default class DbClient<U extends Document, C extends Document> implements
   	this.CommentsModel = commentsModel;
   	this.appMode = mode;
   }
+	getUserTransactions(userId: string, numberOfTransactions?: number): Promise<ICustomJsonResponse> {
+		throw new Error("Method not implemented.");
+	}
 	getUsersBank(): Promise<ICustomJsonResponse> {
 		throw new Error("Method not implemented.");
 	}
