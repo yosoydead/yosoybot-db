@@ -205,9 +205,12 @@ export default class DbClient implements IDbCommunication {
 	}
 
 	getUserTransactions(userId: string, numberOfTransactions?: number): Promise<ICustomJsonResponse> {
+		const number: number = numberOfTransactions ? numberOfTransactions : 10;
 		return this.TransactionsModel.find({ discordUserId: userId })
 			.then((transactions: IUserTransactionMongoose[]) => {
-				const limitedTransactions = transactions.slice(-10);
+				// daca dau un numar cu minus in slice, imi returneaza elemente
+					// de la sfarsitul listei spre inceput
+				const limitedTransactions = transactions.slice((number * -1));
 				return this.createResponseObject(`Tranzactiile userului cu id ${userId} au fost gasite = ${limitedTransactions.length}.`, 200, "success", limitedTransactions);
 			})
 			.catch(() => {
