@@ -12,6 +12,6 @@ export const getUsersBank = async (req: Request, res: Response, next: NextFuncti
 };
 
 export const getUserTransactions = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
-	const json = await dbClient.getUserTransactions(req.params.id);
+	const json = await dbClient.getUserTransactions(req.params.id, Number.parseInt(req.params.howMany));
 	return res.json(json);
 };

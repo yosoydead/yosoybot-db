@@ -82,5 +82,5 @@ export interface IDbCommunication {
   rewardUsers(data: IUserReward[]): Promise<ICustomJsonResponse>;
 
   addTransaction(transactions: IUserTransaction[]): Promise<ICustomJsonResponse>;
-  getUserTransactions(userId: string, numberOfTransactions?: number): Promise<ICustomJsonResponse>
+  getUserTransactions(userId: string, numberOfTransactions: number): Promise<ICustomJsonResponse>;
 }

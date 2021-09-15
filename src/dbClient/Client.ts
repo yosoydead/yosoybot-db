@@ -204,14 +204,16 @@ export default class DbClient implements IDbCommunication {
 			});
 	}
 
-	getUserTransactions(userId: string, numberOfTransactions?: number): Promise<ICustomJsonResponse> {
-		const number: number = numberOfTransactions ? numberOfTransactions : 10;
+	getUserTransactions(userId: string, numberOfTransactions: number): Promise<ICustomJsonResponse> {
+		const number: number = numberOfTransactions <= 0 ? 10 : numberOfTransactions;
+		const url = this.appMode === 'local' ? "http://localhost:3000/test/transactions/getUserTransactions/" : "http://157.230.99.199:3000/goku/transactions/getUserTransactions/";
+
 		return this.TransactionsModel.find({ discordUserId: userId })
 			.then((transactions: IUserTransactionMongoose[]) => {
 				// daca dau un numar cu minus in slice, imi returneaza elemente
 					// de la sfarsitul listei spre inceput
 				const limitedTransactions = transactions.slice((number * -1));
-				return this.createResponseObject(`Tranzactiile userului cu id ${userId} au fost gasite = ${limitedTransactions.length}.`, 200, "success", limitedTransactions);
+				return this.createResponseObject(`Tranzactiile userului cu id ${userId} au fost gasite = ${limitedTransactions.length}. Acceseaza linkul pentru a vedea tot: ${url}${userId}/${numberOfTransactions}`, 200, "success", limitedTransactions);
 			})
 			.catch(() => {
 				return this.createResponseObject("Ceva nu e in regula. Nu pot descarca tranzactiile pt un user.", 500, "error");
