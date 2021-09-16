@@ -22,7 +22,7 @@ export const addUser = async (req: Request, res: Response, next: NextFunction, d
 };
 
 export const addUsers = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
-	const json = await dbClient.addUsers(req.body.users);
+	const json = await dbClient.addUsers(req.body);
 	return res.json(json);
 };
 

@@ -12,4 +12,5 @@ const CommentSchema = new Schema({
 	}
 });
 
-export const GokuComment: Model<ICommentMongoose> = model("commentGoku", CommentSchema);
+// check this https://stackoverflow.com/questions/53021514/usermodel-is-not-assignable-to-parameter-of-type-document-nulll-mongoose-with
+export const GokuComment = model<ICommentMongoose>("commentGoku", CommentSchema);

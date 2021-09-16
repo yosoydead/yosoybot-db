@@ -20,4 +20,5 @@ const UserSchema: Schema = new Schema({
 	]
 }, { timestamps: true });
 
-export const TestUser: Model<IUserMongoose> = model("testUser", UserSchema);
+// check this https://stackoverflow.com/questions/53021514/usermodel-is-not-assignable-to-parameter-of-type-document-nulll-mongoose-with
+export const TestUser = model<IUserMongoose>("testUser", UserSchema);

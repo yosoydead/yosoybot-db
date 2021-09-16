@@ -8,4 +8,5 @@ const TransactionSchema = new Schema({
 	status: { type: String, required: true }
 }, { timestamps: true });
 
-export const GokuTransactions: Model<IUserTransactionMongoose> = model("transactionGoku", TransactionSchema);
+// check this https://stackoverflow.com/questions/53021514/usermodel-is-not-assignable-to-parameter-of-type-document-nulll-mongoose-with
+export const GokuTransactions = model<IUserTransactionMongoose>("transactionGoku", TransactionSchema);
