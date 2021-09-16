@@ -11,6 +11,12 @@ export default class DbClient<U extends Document, C extends Document> implements
   	this.CommentsModel = commentsModel;
   	this.appMode = mode;
   }
+	getUserTransactions(userId: string, numberOfTransactions?: number): Promise<ICustomJsonResponse> {
+		throw new Error("Method not implemented.");
+	}
+	getUsersBank(): Promise<ICustomJsonResponse> {
+		throw new Error("Method not implemented.");
+	}
   
   addComment(content: string, authorID: string): Promise<ICustomJsonResponse> {
   	const dummyRes: ICustomJsonResponse = {
@@ -95,6 +101,15 @@ export default class DbClient<U extends Document, C extends Document> implements
   }
 	rewardUsers(data: IUserReward[]): Promise<ICustomJsonResponse> {
 		console.log(`DummyClient console logging mode: ${this.appMode} rewardUsers()`, data);
+		const dummyRes: ICustomJsonResponse = {
+  		message: "adaug bani multor useri din dummy",
+  		status: "success",
+  		statusCode: 200
+  	};
+  	return Promise.resolve(dummyRes);
+	}
+
+	addTransaction(): Promise<ICustomJsonResponse> {
 		const dummyRes: ICustomJsonResponse = {
   		message: "adaug bani multor useri din dummy",
   		status: "success",

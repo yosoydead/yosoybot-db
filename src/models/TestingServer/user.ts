@@ -11,6 +11,12 @@ const UserSchema: Schema = new Schema({
 			type: Schema.Types.ObjectId,
 			ref: "testComment"
 		}
+	],
+	transactions: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "testTransaction"
+		}
 	]
 }, { timestamps: true });
 

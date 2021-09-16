@@ -19,6 +19,13 @@ export interface IUserReward {
   author: string;
   howMuch: number;
 }
+
+export interface IUserTransaction {
+  reason: string;
+  cost: number;
+  discordUserId: string;
+}
+
 export interface ICommentMongoose extends Document {
   votes: number;
   content: string;
@@ -31,6 +38,13 @@ export interface IUserMongoose extends Document {
   discordUsername: string;
   rublerts: number;
   comments: [ICommentMongoose["_id"]];
+  transactions: [IUserTransactionMongoose["_id"]];
+}
+
+export interface IUserTransactionMongoose extends Document {
+  reason: string;
+  cost: number;
+  discordUserId: string;
 }
 
 export interface ICustomJsonResponse {
@@ -59,10 +73,14 @@ export interface IDbCommunication {
   // users related stuff
   getUserData(discordUserId: string): Promise<ICustomJsonResponse>;
   getAllUsers(): Promise<ICustomJsonResponse>;
+  getUsersBank(): Promise<ICustomJsonResponse>;
   addUser(user: IUser): Promise<ICustomJsonResponse>;
   //din varii motive, nu mergea sa folosesc IUser pentru ca modelul de mongoose are o referinta la ICommentMongoose
     //si avea tot felul de erori. cu IUserMongoose nu se mai plange
   addUsers(users: IUserMongoose[]): Promise<ICustomJsonResponse>;
   rewardUser(data: IUserReward): Promise<ICustomJsonResponse>;
   rewardUsers(data: IUserReward[]): Promise<ICustomJsonResponse>;
+
+  addTransaction(transactions: IUserTransaction[]): Promise<ICustomJsonResponse>;
+  getUserTransactions(userId: string, numberOfTransactions: number): Promise<ICustomJsonResponse>;
 }

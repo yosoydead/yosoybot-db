@@ -2,7 +2,7 @@ import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
-
+import { addTransactionsToUsers, transactionStatus } from "./migrations";
 // mutat aici pentru ca vreau sa citesc NODE_ENV cat se poate de repede
 dotenv.config();
 
@@ -19,11 +19,13 @@ DbFactory.createInstance(env);
 
 import testUserRouter from "./routes/testing/users";
 import testComment from "./routes/testing/comments";
+import testTransaction from "./routes/testing/transactions";
 import gokuUserRouter from "./routes/goku/users";
 import gokuComment from "./routes/goku/comments";
+import gokuTransaction from "./routes/goku/transactions";
 
-const localRoutes = [testUserRouter, testComment];
-const prodRoutes = [gokuComment, gokuUserRouter];
+const localRoutes = [testUserRouter, testComment, testTransaction];
+const prodRoutes = [gokuComment, gokuUserRouter, gokuTransaction];
 
 (async () => {
 	try {
@@ -31,6 +33,11 @@ const prodRoutes = [gokuComment, gokuUserRouter];
 			`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@yosoybotdb.fsga3.mongodb.net/<dbname>?retryWrites=true&w=majority`,
 			{ useNewUrlParser: true, useUnifiedTopology: true }
 		);
+		
+		// MIGRATIONS SECTION
+		// migrate(env, function() { console.log("transaction migration"); });
+		// transactionStatus(env, function() { console.log("transaction migration")});
+		// END MIGRATIONS SECTION
 
 		console.log("m-am conectat");
 		const app: Application = express();

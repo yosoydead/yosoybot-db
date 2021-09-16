@@ -1,15 +1,18 @@
-import { IDbCommunication, ICustomJsonResponse, APP_ENV, IUserMongoose, IComment, ICommentMongoose, IUser, IUserReward, RESPONSE_TYPE } from "../types";
+import { IDbCommunication, ICustomJsonResponse, APP_ENV, IUserMongoose, IComment, ICommentMongoose, IUser, IUserReward, RESPONSE_TYPE, IUserTransaction, IUserTransactionMongoose } from "../types";
 import { Model } from "mongoose";
 export default class DbClient implements IDbCommunication {
   private UsersModel: Model<IUserMongoose>;
   private CommentsModel: Model<ICommentMongoose>;
+	private TransactionsModel: Model<IUserTransactionMongoose>;
 	appMode: APP_ENV;
 
-	constructor(mode: APP_ENV, userModel: Model<IUserMongoose>, commentsModel: Model<ICommentMongoose>) {
+	constructor(mode: APP_ENV, userModel: Model<IUserMongoose>, commentsModel: Model<ICommentMongoose>, transactionsModel: Model<IUserTransactionMongoose>) {
 		this.UsersModel = userModel;
 		this.CommentsModel = commentsModel;
+		this.TransactionsModel = transactionsModel;
 		this.appMode = mode;
 	}
+
 	private createResponseObject(message: string, statusCode: number, status: RESPONSE_TYPE, arrayOfStuff: any = []): ICustomJsonResponse {
 		return { message, statusCode, status, arrayOfStuff };
 	}
@@ -102,6 +105,23 @@ export default class DbClient implements IDbCommunication {
 			});
 	}
 
+	getUsersBank(): Promise<ICustomJsonResponse> {
+		return this.UsersModel.find({})
+			.then((usersResult: IUserMongoose[]) => {
+				const usersBank = usersResult.map((u) => {
+					return {
+						discordUserId: u.discordUserId,
+						rublerts: u.rublerts
+					}
+				});
+
+				return this.createResponseObject(`Asta ar trebui sa fie lista cu toti userii si banii lor din ${this.appMode}. Sunt ${usersResult.length} la numar.`, 200, "success", usersBank);
+			})
+			.catch((err: any) => {
+				return this.createResponseObject("Nu am putut descarca useri + bani? Vezi logurile pe canal", 500, "error");
+			});
+	}
+
 	getAllUsers(): Promise<ICustomJsonResponse> {
 		console.log("date despre toti userii");
 		return this.UsersModel.find({})
@@ -109,7 +129,7 @@ export default class DbClient implements IDbCommunication {
 				return this.createResponseObject(`Asta ar trebui sa fie lista cu toti userii din ${this.appMode}. Sunt ${usersResult.length} la numar.`, 200, "success", usersResult);
 			})
 			.catch((err: any) => {
-				return this.createResponseObject("Nu am putut descarca toate quotes? Vezi logurile pe canal", 500, "error");
+				return this.createResponseObject("Nu am putut descarca datele despre useri? Vezi logurile pe canal", 500, "error");
 			});
 	}
 
@@ -154,6 +174,49 @@ export default class DbClient implements IDbCommunication {
 			})
 			.catch((err: any) => {
 				return this.createResponseObject("Ceva nu e in regula. Nu am putut adauga bani listei de useri. A se verifica canalul de loguri.", 500, "error");
+			});
+	}
+
+	addTransaction(transactions: IUserTransaction[]): Promise<ICustomJsonResponse> {
+		console.log("adaug o tranzactie");
+		return this.TransactionsModel.insertMany(transactions)
+			.then((transactionsRequest: IUserTransactionMongoose[]): Promise<ICustomJsonResponse> => {
+				return this.UsersModel.find({})
+					.then((usersRequest: IUserMongoose[]) => {
+						const newUsersList = [...usersRequest];
+						for(let i = 0; i < transactionsRequest.length; i++) {
+							const user = newUsersList.find(u => u.discordUserId === transactionsRequest[i].discordUserId);
+							// nu are cum sa nu gaseasca userul respectiv dar daca nu il pun nullable, ar da eroare la compilare
+							user?.transactions.push(transactionsRequest[i]._id);
+							user!.rublerts += transactionsRequest[i].cost;
+						}
+						return Promise.all(newUsersList.map(async (user) => {
+							await this.UsersModel.updateOne({ _id: user._id}, { $set: { transactions: user.transactions, rublerts: user.rublerts }});
+						}));
+					})
+					.then(() => {
+						return this.createResponseObject(`Am adaugat ${transactionsRequest.length} tranzactii cu succes >:)`, 200, "success");
+					});
+			})
+			.catch((err) => {
+				console.log(err);
+				return this.createResponseObject("Ceva nu e in regula. A se verifica canalul de loguri.", 500, "error");
+			});
+	}
+
+	getUserTransactions(userId: string, numberOfTransactions: number): Promise<ICustomJsonResponse> {
+		const number: number = numberOfTransactions <= 0 ? 10 : numberOfTransactions;
+		const url = this.appMode === 'local' ? "http://localhost:3000/test/transactions/getUserTransactions/" : "http://157.230.99.199:3000/goku/transactions/getUserTransactions/";
+
+		return this.TransactionsModel.find({ discordUserId: userId })
+			.then((transactions: IUserTransactionMongoose[]) => {
+				// daca dau un numar cu minus in slice, imi returneaza elemente
+					// de la sfarsitul listei spre inceput
+				const limitedTransactions = transactions.slice((number * -1)).reverse();
+				return this.createResponseObject(`Tranzactiile userului cu id ${userId} au fost gasite = ${limitedTransactions.length}. Acceseaza linkul pentru a vedea tot: ${url}${userId}/${numberOfTransactions}`, 200, "success", limitedTransactions);
+			})
+			.catch(() => {
+				return this.createResponseObject("Ceva nu e in regula. Nu pot descarca tranzactiile pt un user.", 500, "error");
 			});
 	}
 }
