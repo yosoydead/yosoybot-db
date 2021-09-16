@@ -15,7 +15,7 @@ const routesConfig: ICustomRoute[] = [
 	//put routes
 
 	//patch routes
-	{ action: "patch", url: "/goku/user/reward", routeHandler: addMoney }
+	{ action: "patch", url: "/goku/user/reward", routeHandler: addMoney },
 	{ action: "patch", url: "/goku/users/reward", routeHandler: addMoneyToMultipleUsers }
 	//delete routes
 ];
