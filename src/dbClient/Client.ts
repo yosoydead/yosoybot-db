@@ -212,7 +212,7 @@ export default class DbClient implements IDbCommunication {
 			.then((transactions: IUserTransactionMongoose[]) => {
 				// daca dau un numar cu minus in slice, imi returneaza elemente
 					// de la sfarsitul listei spre inceput
-				const limitedTransactions = transactions.slice((number * -1));
+				const limitedTransactions = transactions.slice((number * -1)).reverse();
 				return this.createResponseObject(`Tranzactiile userului cu id ${userId} au fost gasite = ${limitedTransactions.length}. Acceseaza linkul pentru a vedea tot: ${url}${userId}/${numberOfTransactions}`, 200, "success", limitedTransactions);
 			})
 			.catch(() => {
