@@ -2,6 +2,8 @@ import { Request, Response, NextFunction} from "express";
 import { Document } from "mongoose";
 
 export type RESPONSE_TYPE = "success" | "error";
+export type TRANSACTION_TYPE = "give" | "receive";
+export type TRANSACTION_STATUS = "successful" | "pending" | "rejected";
 
 export interface IComment {
   votes: number;
@@ -24,6 +26,10 @@ export interface IUserTransaction {
   reason: string;
   cost: number;
   discordUserId: string;
+  status: TRANSACTION_STATUS;
+  type: TRANSACTION_TYPE;
+  fromDiscordUserId?: string;
+  fromDiscordUsername?: string;
 }
 
 export interface ICommentMongoose extends Document {
@@ -45,6 +51,10 @@ export interface IUserTransactionMongoose extends Document {
   reason: string;
   cost: number;
   discordUserId: string;
+  status: TRANSACTION_STATUS;
+  type: TRANSACTION_TYPE;
+  fromDiscordUserId?: string;
+  fromDiscordUsername?: string;
 }
 
 export interface ICustomJsonResponse {

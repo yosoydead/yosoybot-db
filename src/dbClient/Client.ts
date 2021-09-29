@@ -187,6 +187,8 @@ export default class DbClient implements IDbCommunication {
 						for(let i = 0; i < transactionsRequest.length; i++) {
 							const user = newUsersList.find(u => u.discordUserId === transactionsRequest[i].discordUserId);
 							// nu are cum sa nu gaseasca userul respectiv dar daca nu il pun nullable, ar da eroare la compilare
+							if (transactionsRequest[i].type === "receive" && transactionsRequest[i].status === "rejected") continue;
+
 							user?.transactions.push(transactionsRequest[i]._id);
 							if (user?.rublerts! + transactionsRequest[i].cost > 0) {
 								// banii userului nu trebuie sa scada mai mult de 0
