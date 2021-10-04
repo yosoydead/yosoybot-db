@@ -7,7 +7,7 @@ import { addTransactionsToUsers, transactionStatus } from "./migrations";
 dotenv.config();
 
 import { ErrorHandler, handlerError } from "./middlewares/errorHandler";
-import { APP_ENV, ICustomJsonResponse } from "./types";
+import { APP_ENV, ICustomJsonResponse } from "yosoybotDB";
 import DbFactory from "./utils/dbFactory";
 
 /* 

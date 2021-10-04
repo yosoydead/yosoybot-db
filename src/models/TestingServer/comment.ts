@@ -1,5 +1,5 @@
 import { model, Schema, Model } from "mongoose";
-import { ICommentMongoose } from "../../types";
+import { ICommentMongoose } from "yosoyDB-mongoose";
 
 const CommentSchema = new Schema({
 	votes: { type: Number, default: 1 },

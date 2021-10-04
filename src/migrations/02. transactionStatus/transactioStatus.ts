@@ -8,7 +8,7 @@
     - NOU status: o sa fie successful/pending/rejected
 */
 import { TestTransaction, GokuTransactions } from "../../models";
-import { APP_ENV } from "../../types";
+import { APP_ENV } from "yosoybotDB";
 
 export const transactionStatus =  (appMode: APP_ENV | string | undefined, callback: () => any): void => {
     if (appMode === "local") {

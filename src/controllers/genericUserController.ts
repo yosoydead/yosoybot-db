@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { IDbCommunication, IUser } from "../types";
+import { IDbCommunication } from "yosoybotDB";
+import { IUser } from "yosoyDB-mongoose";
 
 export const getUser = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
 	const json = await dbClient.getUserData(req.params.id);
@@ -16,6 +17,7 @@ export const addUser = async (req: Request, res: Response, next: NextFunction, d
 		discordServerId: req.body.discordServerId,
 		discordUserId: req.body.discordUserId,
 		discordUsername: req.body.discordUsername,
+		rublerts: 10
 	};
 	const json = await dbClient.addUser(user);
 	return res.json(json);
@@ -23,15 +25,5 @@ export const addUser = async (req: Request, res: Response, next: NextFunction, d
 
 export const addUsers = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
 	const json = await dbClient.addUsers(req.body);
-	return res.json(json);
-};
-
-export const addMoney = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
-	const json = await dbClient.rewardUser({ author: req.body.author, howMuch: req.body.howMuch });
-	return res.json(json);
-};
-
-export const addMoneyToMultipleUsers = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
-	const json = await dbClient.rewardUsers(req.body.rewardsList);
 	return res.json(json);
 };

@@ -7,7 +7,7 @@
     - discordUserId: cui ii apartine tranzactia
 */
 import { TestUser, GokuUser } from "../../models";
-import { APP_ENV } from "../../types";
+import { APP_ENV } from "yosoybotDB";
 
 export const migrate = (appMode: APP_ENV | string | undefined, callback: () => any): void => {
 	if (appMode === "local") {

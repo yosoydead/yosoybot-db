@@ -1,5 +1,5 @@
-import { model, Schema, Model } from "mongoose";
-import { IUserMongoose } from "../../types";
+import { model, Schema } from "mongoose";
+import { IUserMongoose } from "yosoyDB-mongoose";
 
 const UserSchema: Schema = new Schema({
 	discordServerId: { type: String },

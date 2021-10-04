@@ -1,6 +1,6 @@
 import { Router  } from "express";
-import { getUser, getUsers, addUser, addUsers, addMoney, addMoneyToMultipleUsers } from "../../controllers/genericUserController";
-import { ICustomRoute } from "../../types";
+import { getUser, getUsers, addUser, addUsers } from "../../controllers/genericUserController";
+import { ICustomRoute } from "yosoybotDB";
 import { routeIterator } from "../../utils/routesIterator";
 
 const routesConfig: ICustomRoute[] = [
@@ -15,8 +15,7 @@ const routesConfig: ICustomRoute[] = [
 	//put routes
 
 	//patch routes
-	{ action: "patch", url: "/test/user/reward", routeHandler: addMoney },
-	{ action: "patch", url: "/test/users/reward", routeHandler: addMoneyToMultipleUsers }
+
 	//delete routes
 ];
 const userRoute: Router = routeIterator(routesConfig);

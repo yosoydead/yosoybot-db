@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { addTransaction, getUsersBank, getUserTransactions } from "../../controllers/genericTransactionController";
-import { ICustomRoute } from "../../types";
+import { ICustomRoute } from "yosoybotDB";
 import { routeIterator } from "../../utils/routesIterator";
 
 const routesConfig: ICustomRoute[] = [

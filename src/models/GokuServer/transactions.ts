@@ -1,5 +1,5 @@
-import { model, Schema, Model } from "mongoose";
-import { IUserTransactionMongoose } from "../../types";
+import { model, Schema } from "mongoose";
+import { IUserTransactionMongoose } from "yosoyDB-mongoose";
 
 const TransactionSchema = new Schema({
 	reason: { type: String, required: true },
