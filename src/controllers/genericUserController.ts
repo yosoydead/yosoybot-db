@@ -12,6 +12,11 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction, 
 	return res.json(json);
 };
 
+export const getUserBank = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
+	const json = await dbClient.getUserBank(req.params.id);
+	return res.json(json);
+};
+
 export const addUser = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
 	const user: IUser = {
 		discordServerId: req.body.discordServerId,

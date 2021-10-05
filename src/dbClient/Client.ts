@@ -106,6 +106,20 @@ export default class DbClient implements IDbCommunication {
 			});
 	}
 
+	getUserBank(discordUserId: string): Promise<ICustomJsonResponse> {
+		return this.UsersModel.find({ discordUserId: discordUserId})
+			.then((userResult: IUser[]) => {
+				if (userResult.length === 0) {
+					return this.createResponseObject(`Nu am gasit niciun user care sa aiba id-ul: ${discordUserId}`, 200, "success");
+				}
+
+				return this.createResponseObject(`Salut. In acest moment mai ai ${userResult[0].rublerts} rublerts disponibili.`, 200, "success");
+			})
+			.catch((err: any) => {
+				return this.createResponseObject("Nu am putut descarca detalii despre un user. Vezi logurile pe canal.", 500, "error");
+			});
+	}
+
 	getUsersBank(): Promise<ICustomJsonResponse> {
 		return this.UsersModel.find({})
 			.then((usersResult: IUserMongoose[]) => {
@@ -191,31 +205,18 @@ export default class DbClient implements IDbCommunication {
 	async getUserTransactions(userId: string, numberOfTransactions: number): Promise<ICustomJsonResponse> {
 		const number: number = numberOfTransactions <= 0 ? 10 : numberOfTransactions;
 		const url = this.appMode === 'local' ? "http://localhost:3000/test/transactions/getUserTransactions/" : "http://157.230.99.199:3000/goku/transactions/getUserTransactions/";
-		// console.log(await this.UsersModel.findOne({ discordUserId: userId}).populate({path: 'transactions'}));
-		
-		// return this.TransactionsModel.find({ discordUserId: userId })
-		// 	.then((transactions: IUserTransactionMongoose[]) => {
-		// 		// daca dau un numar cu minus in slice, imi returneaza elemente
-		// 			// de la sfarsitul listei spre inceput
-		// 		const limitedTransactions = transactions.slice((number * -1)).reverse();
-		// 		return this.createResponseObject(`Tranzactiile userului cu id ${userId} au fost gasite = ${limitedTransactions.length}. Acceseaza linkul pentru a vedea tot: ${url}${userId}/${numberOfTransactions}`, 200, "success", limitedTransactions);
-		// 	})
-		// 	.catch(() => {
-		// 		return this.createResponseObject("Ceva nu e in regula. Nu pot descarca tranzactiile pt un user.", 500, "error");
-		// 	});
 
 		return this.UsersModel.findOne({ discordUserId: userId}).populate({path: 'transactions'})
 			.then((userData) => {
 				const dataToSend = [
 					// @ts-ignore
-					{ userId: userData?.discordServerId, username: userData?.discordUsername, bank: userData?.rublerts, lastUpdate: new Date(userData?.updatedAt).toUTCString() },
-					userData?.transactions
+					{ userId: userData?.discordUserId, username: userData?.discordUsername, bank: userData?.rublerts, lastUpdate: new Date(userData?.updatedAt).toUTCString() },
+					userData?.transactions.slice((number * -1)).reverse()
 				];
 				return this.createResponseObject(`Salut ${userData?.discordUsername}. Acceseaza linkul pentru a afla datele despre tranzactiile tale: ${url}${userId}/${numberOfTransactions}`, 200, "success", dataToSend);
-				// return this.createResponseObject(`Tranzactiile userului cu id ${userId} au fost gasite = ${limitedTransactions.length}. Acceseaza linkul pentru a vedea tot: ${url}${userId}/${numberOfTransactions}`, 200, "success", limitedTransactions);
 			})
 			.catch(() => {
-				return this.createResponseObject("Ceva nu e in regula. Nu pot descarca tranzactiile pt un user.", 500, "error");
+				return this.createResponseObject("Ceva nu e in regula. Nu pot descarca tranzactiile.", 500, "error");
 			});
 	}
 }
