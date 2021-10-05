@@ -9,9 +9,11 @@ declare module "yosoyDB-mongoose" {
      * @property {string} discordUserID
      * @property {string} initiatorDiscordUsername
      * @property {string} initiatorDiscordUserId
+     * @property {string} receiverDiscordUserId
+     * @property {string} receiverDiscordUsername
      * @property {TRANSACTION_STATUS} status
      * @property {TRANSACTION_TYPE} type
-     */
+    */
     interface IUserTransaction {
         /** de ce se face tranzactia asta */
         reason: string;
@@ -23,6 +25,10 @@ declare module "yosoyDB-mongoose" {
         initiatorDiscordUsername: string;
         /** id-ul de discord al persoanei care initiaza tranzactia */
         initiatorDiscordUserId: string;
+        /** id-ul de discord al persoanei care primeste tranzactia */
+        receiverDiscordUserId: string;
+        /** username-ul de discord al persoanei care initiaza tranzactia */
+        receiverDiscordUsername: string;
         /** daca tranzactia a esuat sau a fost acceptata */
         status: TRANSACTION_STATUS;
         /** daca userul da sau primeste bani */
