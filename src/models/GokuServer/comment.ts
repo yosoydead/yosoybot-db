@@ -1,16 +1,6 @@
-import { model, Schema } from "mongoose";
+import { model } from "mongoose";
 import { ICommentMongoose } from "yosoyDB-mongoose";
-
-const CommentSchema = new Schema({
-	votes: { type: Number },
-	content: { type: String },
-	author: {
-		// type: Schema.Types.ObjectId,
-		// ref: "userGoku",
-		type: String,
-		required: [true, "Lipseste goku user id"]
-	}
-});
+import CommentSchema from "../sharedSchemas/commentSchema";
 
 // check this https://stackoverflow.com/questions/53021514/usermodel-is-not-assignable-to-parameter-of-type-document-nulll-mongoose-with
 export const GokuComment = model<ICommentMongoose>("commentGoku", CommentSchema);
