@@ -7,7 +7,7 @@ const routesConfig: ICustomRoute[] = [
 	//get routes
 	{ action: "get", url: "/goku/user/get/:id", routeHandler: getUser },
 	{ action: "get", url: "/goku/users", routeHandler: getUsers },
-	{ action: "get", url: "/test/user/getBank/:id", routeHandler: getUserBank },
+	{ action: "get", url: "/goku/user/getBank/:id", routeHandler: getUserBank },
 
 	//post routes
 	{ action: "post", url: "/goku/user/add/:id", routeHandler: addUser },
