@@ -1,4 +1,5 @@
-import { IDbCommunication, ICustomJsonResponse, APP_ENV, IUserMongoose, IComment, ICommentMongoose, IUser, IUserReward, RESPONSE_TYPE, IUserTransaction, IUserTransactionMongoose } from "../types";
+import { IDbCommunication, ICustomJsonResponse, APP_ENV,  RESPONSE_TYPE } from "yosoybotDB";
+import { IUserMongoose, IComment, ICommentMongoose, IUser, IUserTransactionMongoose, IUserTransaction } from "yosoyDB-mongoose";
 import { Model } from "mongoose";
 export default class DbClient implements IDbCommunication {
   private UsersModel: Model<IUserMongoose>;
@@ -105,6 +106,20 @@ export default class DbClient implements IDbCommunication {
 			});
 	}
 
+	getUserBank(discordUserId: string): Promise<ICustomJsonResponse> {
+		return this.UsersModel.find({ discordUserId: discordUserId})
+			.then((userResult: IUser[]) => {
+				if (userResult.length === 0) {
+					return this.createResponseObject(`Nu am gasit niciun user care sa aiba id-ul: ${discordUserId}`, 200, "success");
+				}
+
+				return this.createResponseObject(`Salut. In acest moment mai ai ${userResult[0].rublerts} rublerts disponibili.`, 200, "success");
+			})
+			.catch((err: any) => {
+				return this.createResponseObject("Nu am putut descarca detalii despre un user. Vezi logurile pe canal.", 500, "error");
+			});
+	}
+
 	getUsersBank(): Promise<ICustomJsonResponse> {
 		return this.UsersModel.find({})
 			.then((usersResult: IUserMongoose[]) => {
@@ -155,28 +170,6 @@ export default class DbClient implements IDbCommunication {
 			});
 	}
 
-	rewardUser(data: IUserReward): Promise<ICustomJsonResponse> {
-		return this.UsersModel.findOneAndUpdate({ discordUserId: data.author }, { $inc: { "rublerts": data.howMuch }})
-			.then(() => {
-				return this.createResponseObject(`Am adaugat bani user-ului cu id ${data.author} in baza de date pe modul ${this.appMode}.`, 200, "success");
-			})
-			.catch((err: any) => {
-				return this.createResponseObject(`Ceva nu e in regula. Nu am putut adauga bani pt user-ul cu id ${data.author}. A se verifica canalul de loguri.`, 500, "error");
-			});
-	}
-
-	rewardUsers(data: IUserReward[]): Promise<ICustomJsonResponse> {
-		return Promise.all(data.map(async (d) => {
-			await this.UsersModel.findOneAndUpdate({ discordUserId: d.author }, { $inc: { "rublerts": d.howMuch }});
-		}))
-			.then(() => {
-				return this.createResponseObject(`Am adaugat bani listei de useri in baza de date pe modul ${this.appMode}.`, 200, "success");
-			})
-			.catch((err: any) => {
-				return this.createResponseObject("Ceva nu e in regula. Nu am putut adauga bani listei de useri. A se verifica canalul de loguri.", 500, "error");
-			});
-	}
-
 	addTransaction(transactions: IUserTransaction[]): Promise<ICustomJsonResponse> {
 		console.log("adaug o tranzactie");
 		return this.TransactionsModel.insertMany(transactions)
@@ -209,19 +202,21 @@ export default class DbClient implements IDbCommunication {
 			});
 	}
 
-	getUserTransactions(userId: string, numberOfTransactions: number): Promise<ICustomJsonResponse> {
+	async getUserTransactions(userId: string, numberOfTransactions: number): Promise<ICustomJsonResponse> {
 		const number: number = numberOfTransactions <= 0 ? 10 : numberOfTransactions;
 		const url = this.appMode === 'local' ? "http://localhost:3000/test/transactions/getUserTransactions/" : "http://157.230.99.199:3000/goku/transactions/getUserTransactions/";
 
-		return this.TransactionsModel.find({ discordUserId: userId })
-			.then((transactions: IUserTransactionMongoose[]) => {
-				// daca dau un numar cu minus in slice, imi returneaza elemente
-					// de la sfarsitul listei spre inceput
-				const limitedTransactions = transactions.slice((number * -1)).reverse();
-				return this.createResponseObject(`Tranzactiile userului cu id ${userId} au fost gasite = ${limitedTransactions.length}. Acceseaza linkul pentru a vedea tot: ${url}${userId}/${numberOfTransactions}`, 200, "success", limitedTransactions);
+		return this.UsersModel.findOne({ discordUserId: userId}).populate({path: 'transactions'})
+			.then((userData) => {
+				const dataToSend = [
+					// @ts-ignore
+					{ userId: userData?.discordUserId, username: userData?.discordUsername, bank: userData?.rublerts, lastUpdate: new Date(userData?.updatedAt).toUTCString() },
+					userData?.transactions.slice((number * -1)).reverse()
+				];
+				return this.createResponseObject(`Salut ${userData?.discordUsername}. Acceseaza linkul pentru a afla datele despre tranzactiile tale: ${url}${userId}/${numberOfTransactions}`, 200, "success", dataToSend);
 			})
 			.catch(() => {
-				return this.createResponseObject("Ceva nu e in regula. Nu pot descarca tranzactiile pt un user.", 500, "error");
+				return this.createResponseObject("Ceva nu e in regula. Nu pot descarca tranzactiile.", 500, "error");
 			});
 	}
 }

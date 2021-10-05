@@ -2,12 +2,12 @@ import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
-import { addTransactionsToUsers, transactionStatus } from "./migrations";
+import { addTransactionsToUsers, transactionStatus, transactionsInitReceiver } from "./migrations";
 // mutat aici pentru ca vreau sa citesc NODE_ENV cat se poate de repede
 dotenv.config();
 
 import { ErrorHandler, handlerError } from "./middlewares/errorHandler";
-import { APP_ENV, ICustomJsonResponse } from "./types";
+import { APP_ENV, ICustomJsonResponse } from "yosoybotDB";
 import DbFactory from "./utils/dbFactory";
 
 /* 
@@ -37,6 +37,7 @@ const prodRoutes = [gokuComment, gokuUserRouter, gokuTransaction];
 		// MIGRATIONS SECTION
 		// migrate(env, function() { console.log("transaction migration"); });
 		// transactionStatus(env, function() { console.log("transaction migration")});
+		// transactionsInitReceiver(env, function() { console.log("transaction migration");});
 		// END MIGRATIONS SECTION
 
 		console.log("m-am conectat");

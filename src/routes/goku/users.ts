@@ -1,12 +1,13 @@
 import { Router  } from "express";
-import { addUser, addUsers, getUser, getUsers, addMoney, addMoneyToMultipleUsers } from "../../controllers/genericUserController";
-import { ICustomRoute } from "../../types";
+import { addUser, addUsers, getUser, getUsers, getUserBank } from "../../controllers/genericUserController";
+import { ICustomRoute } from "yosoybotDB";
 import { routeIterator } from "../../utils/routesIterator";
 
 const routesConfig: ICustomRoute[] = [
 	//get routes
 	{ action: "get", url: "/goku/user/get/:id", routeHandler: getUser },
 	{ action: "get", url: "/goku/users", routeHandler: getUsers },
+	{ action: "get", url: "/test/user/getBank/:id", routeHandler: getUserBank },
 
 	//post routes
 	{ action: "post", url: "/goku/user/add/:id", routeHandler: addUser },
@@ -15,8 +16,7 @@ const routesConfig: ICustomRoute[] = [
 	//put routes
 
 	//patch routes
-	{ action: "patch", url: "/goku/user/reward", routeHandler: addMoney },
-	{ action: "patch", url: "/goku/users/reward", routeHandler: addMoneyToMultipleUsers }
+
 	//delete routes
 ];
 const userRoute: Router = routeIterator(routesConfig);

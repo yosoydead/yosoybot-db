@@ -1,7 +1,7 @@
 import DbClient from "../dbClient/Client";
 import DummyClient from "../dbClient/DummyClient";
 import { GokuComment, GokuUser, GokuTransactions, TestComment, TestUser, TestTransaction } from "../models/index";
-import { IDbCommunication, APP_ENV } from "../types";
+import { IDbCommunication, APP_ENV } from "yosoybotDB";
 
 let instance: IDbCommunication;
 

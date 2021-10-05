@@ -1,6 +1,6 @@
 import { Router  } from "express";
 import { getComment, getComments, addComment, addComments } from "../../controllers/genericCommentsController";
-import { ICustomRoute } from "../../types";
+import { ICustomRoute } from "yosoybotDB";
 import { routeIterator } from "../../utils/routesIterator";
 
 const routesConfig: ICustomRoute[] = [

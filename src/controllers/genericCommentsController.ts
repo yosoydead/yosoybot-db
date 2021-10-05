@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction} from "express";
-import { IDbCommunication } from "../types";
+import { IDbCommunication } from "yosoybotDB";
 
 export const getComment = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
 	const json = await dbClient.getRandomComment();

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
 import { Response } from "express";
-import { ICustomJsonResponse } from "../types";
-
+import { ICustomJsonResponse} from "yosoybotDB";
 export class ErrorHandler extends Error {
 	public _statusCode: number;
 	constructor(message: string, statusCode: number = 500) {

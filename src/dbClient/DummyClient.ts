@@ -1,4 +1,5 @@
-import { IDbCommunication, APP_ENV, ICustomJsonResponse, IComment, IUser, IUserReward } from "../types";
+import { IDbCommunication, APP_ENV, ICustomJsonResponse } from "yosoybotDB";
+import { IComment, IUser } from "yosoyDB-mongoose";
 import { Model, Document } from "mongoose";
 
 export default class DbClient<U extends Document, C extends Document> implements IDbCommunication {
@@ -11,6 +12,9 @@ export default class DbClient<U extends Document, C extends Document> implements
   	this.CommentsModel = commentsModel;
   	this.appMode = mode;
   }
+	getUserBank(discordUserId: string): Promise<ICustomJsonResponse> {
+		throw new Error("Method not implemented.");
+	}
 	getUserTransactions(userId: string, numberOfTransactions?: number): Promise<ICustomJsonResponse> {
 		throw new Error("Method not implemented.");
 	}
@@ -90,25 +94,6 @@ export default class DbClient<U extends Document, C extends Document> implements
   	};
   	return Promise.resolve(dummyRes);
   }
-  rewardUser(data: IUserReward): Promise<ICustomJsonResponse> {
-  	console.log(`DummyClient console logging mode: ${this.appMode} rewardUser()`, data);
-		const dummyRes: ICustomJsonResponse = {
-  		message: "adaug bani unui user din dummy",
-  		status: "success",
-  		statusCode: 200
-  	};
-  	return Promise.resolve(dummyRes);
-  }
-	rewardUsers(data: IUserReward[]): Promise<ICustomJsonResponse> {
-		console.log(`DummyClient console logging mode: ${this.appMode} rewardUsers()`, data);
-		const dummyRes: ICustomJsonResponse = {
-  		message: "adaug bani multor useri din dummy",
-  		status: "success",
-  		statusCode: 200
-  	};
-  	return Promise.resolve(dummyRes);
-	}
-
 	addTransaction(): Promise<ICustomJsonResponse> {
 		const dummyRes: ICustomJsonResponse = {
   		message: "adaug bani multor useri din dummy",

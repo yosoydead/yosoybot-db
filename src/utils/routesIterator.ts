@@ -1,4 +1,4 @@
-import { ICustomRoute } from "../types";
+import { ICustomRoute } from "yosoybotDB";
 import express, { Router} from "express";
 import DbFactory from "./dbFactory";
 
