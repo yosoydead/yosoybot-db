@@ -29,10 +29,16 @@ import fs from "fs";
     let newMigrationFolderName: string;
     if(migrationNumber < 10) {
         newMigrationFolderName = `0${migrationNumber+1}. ${migrationName}`;
-        migrationsFile[newMigrationFolderName] = false;
+        migrationsFile[newMigrationFolderName] = {
+            "local": false,
+            "production": false
+        };
     } else {
         newMigrationFolderName = `${migrationNumber+1}. ${migrationName}`;
-        migrationsFile[newMigrationFolderName] = false;
+        migrationsFile[newMigrationFolderName] = {
+            "local": false,
+            "production": false
+        };
     }
     
     fs.mkdirSync(`${migrationsFolderPath}/${newMigrationFolderName}`);

@@ -25,28 +25,36 @@ const env: APP_ENV | undefined | string = process.env.NODE_ENV;
 			{ useNewUrlParser: true, useUnifiedTopology: true }
 		);
 
-        for(let i = 0; i < migrationsFolderStructure.length; i++) {
+        // -1 pentru ca am un fisier de index.ts pe care il citeste in migrationsFolderStructure.length
+        for(let i = 0; i < migrationsFolderStructure.length - 1; i++) {
             const migrationFolder = migrationsFolderStructure[i];
-            if (migrationsFile[migrationFolder] === false) {
+            if (env === "local" && migrationsFile[migrationFolder]["local"] === false) {
                 /* an facut asa pentru ca nu puteam sa pasez ${env} direct
                     pur si simplu urla pentru ReferenceError
                 */
-                if(env === "local") {
-                    eval(`
-                        var x = require("./migrations");
-                        x.${migrationFolder.split(" ")[1]}("local");
-                    `);
-                } else if (env === "production") {
-                    eval(`
-                        var x = require("./migrations");
-                        x.${migrationFolder.split(" ")[1]}("production");
-                    `);
-                } else {
-                    throw new Error("Din ceva motive, nu am putut sa iau app mode");
-                }
+                eval(`
+                    var x = require("./migrations");
+                    x.${migrationFolder.split(" ")[1]}("local");
+                `);
+                migrationsFile[migrationFolder]["local"] = true;
+            }
+            if (env === "production" && migrationsFile[migrationFolder]["production"] === false) {
+                eval(`
+                    var x = require("./migrations");
+                    x.${migrationFolder.split(" ")[1]}("production");
+                `);
+                migrationsFile[migrationFolder]["production"] = true;
             }
         }
-        sleep(5000, () => { console.log("am terminat migratia.") });
+
+        // din cauza chestiei cu eval, nu am putut sa dau un callback ca lumea
+        // inchid conexiunea dupa ceva timp. 30 secunde ar fi suficient timp pentru
+            // marimea serverului si ale datelor pe care le stocheaza
+        fs.writeFileSync(migrationsFilePath, JSON.stringify(migrationsFile));        
+        sleep(30000, () => { console.log("am terminat migratia.") });
+        await mongoose.disconnect(() => {
+            console.log("am inchis conexiunea");
+        });
     } catch (err) {
         console.log("Am primit ceva eroare. Ori nu m-am conectat la baza de date, ori o migratie a crapat.", err);
     }
