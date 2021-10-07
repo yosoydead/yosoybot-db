@@ -49,8 +49,5 @@ const env: APP_ENV | undefined | string = process.env.NODE_ENV;
         sleep(5000, () => { console.log("am terminat migratia.") });
     } catch (err) {
         console.log("Am primit ceva eroare. Ori nu m-am conectat la baza de date, ori o migratie a crapat.", err);
-    } finally {
-        console.log("finally");
-        await mongoose.disconnect();
     }
 })();
