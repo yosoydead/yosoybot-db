@@ -1,7 +1,7 @@
 import { Schema } from "mongoose";
 
 const commentSchema: Schema = new Schema({
-	votes: { type: Number, default: 1 },
+	commentDiscordId: { type: String, default: ""},
 	content: { type: String },
 	author: {
 		type: String,

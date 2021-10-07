@@ -44,7 +44,7 @@ declare module "yosoyDB-mongoose" {
      * @property {string} author - discord user id
     */
     interface IComment {
-        votes: number;
+        commentDiscordId: string;
         /** textul zicalei */
         content: string;
         /** id-ul de discord al persoanei care a scris acea treaba */

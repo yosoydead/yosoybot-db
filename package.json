@@ -8,7 +8,9 @@
     "watch": "tsc -w",
     "build": "tsc",
     "local": "nodemon build/index.js",
-    "start": "node build/index.js"
+    "start": "npm run migrationRunner && node build/index.js",
+    "createMigration": "node build/migrate.js",
+    "migrationRunner": "node build/migrationRunner.js"
   },
   "author": "",
   "license": "ISC",
