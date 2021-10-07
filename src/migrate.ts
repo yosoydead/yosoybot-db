@@ -55,5 +55,10 @@ export const ${migrationName} = (appMode: APP_ENV | string | undefined, callback
     }
 };
 `;
-    fs.writeFileSync(`${migrationsFolderPath}/${newMigrationFolderName}/${migrationName}.ts`, migrationTemplate);    
+    fs.writeFileSync(`${migrationsFolderPath}/${newMigrationFolderName}/${migrationName}.ts`, migrationTemplate);
+
+    const barrelFile = fs.readFileSync(`${migrationsFolderPath}/index.ts`).toString();
+    const newBarrel = `${barrelFile}
+export { ${migrationName} } from "./${newMigrationFolderName}/${migrationName}";`
+    fs.writeFileSync(`${migrationsFolderPath}/index.ts`, newBarrel);
 })();

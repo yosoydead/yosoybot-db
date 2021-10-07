@@ -9,7 +9,8 @@
     "build": "tsc",
     "local": "nodemon build/index.js",
     "start": "node build/index.js",
-    "create-migration": "node build/migrate.js"
+    "createMigration": "node build/migrate.js",
+    "migrationRunner": "node build/migrationRunner.js"
   },
   "author": "",
   "license": "ISC",

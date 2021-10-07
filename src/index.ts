@@ -2,7 +2,6 @@ import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
-import { addTransactionsToUsers, transactionStatus, transactionsInitReceiver } from "./migrations";
 // mutat aici pentru ca vreau sa citesc NODE_ENV cat se poate de repede
 dotenv.config();
 
@@ -33,13 +32,6 @@ const prodRoutes = [gokuComment, gokuUserRouter, gokuTransaction];
 			`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@yosoybotdb.fsga3.mongodb.net/<dbname>?retryWrites=true&w=majority`,
 			{ useNewUrlParser: true, useUnifiedTopology: true }
 		);
-		
-		// MIGRATIONS SECTION
-		// migrate(env, function() { console.log("transaction migration"); });
-		// transactionStatus(env, function() { console.log("transaction migration")});
-		// transactionsInitReceiver(env, function() { console.log("transaction migration");});
-		// END MIGRATIONS SECTION
-
 		console.log("m-am conectat");
 		const app: Application = express();
 		app.use(cors());
