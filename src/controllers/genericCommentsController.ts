@@ -12,11 +12,16 @@ export const getComments = async (req: Request, res: Response, next: NextFunctio
 };
 
 export const addComment = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
-	const json = await dbClient.addComment(req.body.content, req.body.author);
+	const json = await dbClient.addComment(req.body.content, req.body.author, req.body.commentDiscordId);
 	return res.json(json);
 };
 
 export const addComments = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
 	const json = await dbClient.addComments(req.body.comments);
+	return res.json(json);
+};
+
+export const removeComment = async (req: Request, res: Response, next: NextFunction, dbClient: IDbCommunication) => {
+	const json = await dbClient.removeComment(req.body.commentDiscordId);
 	return res.json(json);
 };
