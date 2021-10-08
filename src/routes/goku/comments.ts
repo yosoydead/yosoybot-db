@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addComment, addComments, getComment, getComments } from "../../controllers/genericCommentsController";
+import { addComment, addComments, getComment, getComments, removeComment } from "../../controllers/genericCommentsController";
 import { ICustomRoute } from "yosoybotDB";
 import { routeIterator } from "../../utils/routesIterator";
 
@@ -11,7 +11,7 @@ const routesConfig: ICustomRoute[] = [
 	//post routes
 	{ action: "post", url: "/goku/comment", routeHandler: addComment },
 	{ action: "post", url: "/goku/comments", routeHandler: addComments },
-
+	{ action: "post", url: "/goku/removeComment", routeHandler: removeComment },
 	//put routes
 
 	//patch routes

@@ -12,6 +12,9 @@ export default class DbClient<U extends Document, C extends Document> implements
   	this.CommentsModel = commentsModel;
   	this.appMode = mode;
   }
+	removeComment(commentDiscordId: string): Promise<ICustomJsonResponse> {
+		throw new Error("Method not implemented.");
+	}
 	getUserBank(discordUserId: string): Promise<ICustomJsonResponse> {
 		throw new Error("Method not implemented.");
 	}

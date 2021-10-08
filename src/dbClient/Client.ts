@@ -19,9 +19,9 @@ export default class DbClient implements IDbCommunication {
 	}
 
 	// comments stuff
-	addComment(content: string, authorID: string): Promise<ICustomJsonResponse> {
+	addComment(content: string, authorID: string, messageId: string): Promise<ICustomJsonResponse> {
 		console.log("adaug comment");
-		return this.CommentsModel.create({ content: content, author: authorID })
+		return this.CommentsModel.create({ content: content, author: authorID, commentDiscordId: messageId })
 			.then((comment): Promise<IUserMongoose> => {
 				// @ts-ignore
 				return this.UsersModel.findOneAndUpdate({ discordUserId: authorID }, { $push: { comments: comment._id } });
@@ -87,6 +87,19 @@ export default class DbClient implements IDbCommunication {
 			})
 			.catch((err: any) => {
 				return this.createResponseObject("Nu am putut descarca toate quotes? Vezi logurile pe canal.", 500, "error");
+			});
+	}
+
+	removeComment(commentDiscordId: string): Promise<ICustomJsonResponse> {
+		return this.CommentsModel.deleteOne({ commentDiscordId })
+			.then((comment) => {
+				if (comment.deletedCount === 0) {
+					return this.createResponseObject("Nu am gasit comentariul pe care vrei sa il stergi. Vorbeste cu Bogdan.", 200, "success");
+				}
+				return this.createResponseObject("Am sters comentariul.", 200, "success");
+			})
+			.catch(() => {
+				return this.createResponseObject("Ceva nu e bine. Nu am putut apela baza de date sau nu am putut sa sterg comentariul. Vorbeste cu Bogdan.", 500, "error")
 			});
 	}
 

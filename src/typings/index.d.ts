@@ -42,10 +42,11 @@ declare module "yosoybotDB" {
     interface IDbCommunication {
         appMode: APP_ENV;
         // comments related stuff
-        addComment(content: string, authorID: string): Promise<ICustomJsonResponse>;
+        addComment(content: string, authorID: string, commentDiscordId: string): Promise<ICustomJsonResponse>;
         addComments(comments: IComment[]): Promise<ICustomJsonResponse>;
         getRandomComment(): Promise<ICustomJsonResponse>;
         getComments(): Promise<ICustomJsonResponse>;
+        removeComment(commentDiscordId: string): Promise<ICustomJsonResponse>;
       
         // users related stuff
         getUserData(discordUserId: string): Promise<ICustomJsonResponse>;
